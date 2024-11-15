@@ -24,6 +24,7 @@ const saveToken = (newToken) => {
 
 // Generic function to handle requests
 const request = async (method, url, data = null) => {
+    console.log(data);
     try {
         const response = await axios({
             method,
@@ -33,13 +34,31 @@ const request = async (method, url, data = null) => {
         });
 
         // Check for token in the response headers or data and update if available
-        const newToken = response.headers['Authorization'] || response.data?.token;
+        const newToken = /* response.headers['Authorization'] || */ response.data?.token;
         saveToken(newToken);
+        console.log(newToken);
 
         return response.data; // Return only data
     } catch (error) {
-        console.error(`Error with ${method.toUpperCase()} request to ${url}`, error);
-        throw error; // Re-throw to handle in component if needed
+        if (error.response) {
+            console.error(`Error with ${method.toUpperCase()} request to ${url}`, error);
+            const { status, data } = error.response;
+      
+            if (status === 403) {
+              throw new Error('Access denied. You do not have permission to perform this action.');
+            } else if (status === 401) {
+              throw new Error('Unauthorized. Please log in again.');
+            } else {
+              throw new Error(data.message || 'An error occurred while processing your request.');
+            }
+          } else if (error.request) {
+            console.error(`No response received for ${method.toUpperCase()} request to ${url}`);
+            throw new Error('Network error. Please check your connection.');
+          } else {
+            // Something happened in setting up the request
+            console.error(`Error setting up ${method.toUpperCase()} request to ${url}`);
+            throw new Error('An unexpected error occurred.');
+          }
     }
 };
 

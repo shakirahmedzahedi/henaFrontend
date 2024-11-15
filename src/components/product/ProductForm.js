@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   TextField,
   Button,
@@ -9,30 +10,85 @@ import {
   Typography,
   Container,
   Grid,
+  CircularProgress,
+  Alert
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProduct, clearError } from '../../reducer/services/ProductService';
 
 const ProductForm = () => {
-  // Sample options for category and tags
-  const categories = ['Electronics', 'Clothing', 'Books', 'Furniture'];
-  const tagsOptions = ['New', 'Popular', 'Discounted', 'Limited Edition'];
+  const dispatch = useDispatch();
+  const products = useSelector((state)=> state.product.products);
+  const loading = useSelector((state)=> state.product.loading);
+  const error = useSelector((state)=> state.product.error);
+  const successMessage = useSelector((state)=> state.product.success);
+  const categories = ['BABY', 'FAMILY&MOM', 'NEWARRIVAL'];
+  const tagsOptions = ['NEWBORN', 'TODDLER', 'CHILDREN', 'MOM'];
 
-  // Initial state for the form inputs
-  const [formValues, setFormValues] = useState({
+   const [formValues, setFormValues] = useState({
     title: '',
     description: '',
     additionalInfo: '',
     extraInfo: '',
     category: '',
-    price: '',
-    discountPercentage: '',
-    rating: '',
-    stock: '',
+    prie: 0,
+    discountPercentage: 0,
+    rating: 0,
+    stock: 0,
     tags: '',
     brand: '',
     size: '',
-    weight: '',
+    weight: 0,
     thumbnail: null, // Changed to null for file upload
   });
+
+  const [uploading, setUploading] = useState(false); 
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setShowError(true);
+
+      // Hide the error message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (successMessage) {
+      setShowSuccess(true);
+      setFormValues({
+        title: '',
+        description: '',
+        additionalInfo: '',
+        extraInfo: '',
+        category: '',
+        prie: 0,
+        discountPercentage: 0,
+        rating: 0,
+        stock: 0,
+        tags: '',
+        brand: '',
+        size: '',
+        weight: 0,
+        thumbnail: null, // Changed to null for file upload
+      }); // Reset the form to initial values after successful submission
+    setThumbnailPreview(null);
+
+      // Hide the error message after 5 seconds
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -43,26 +99,48 @@ const ProductForm = () => {
     });
   };
 
-  // Handle file change for thumbnail
-  const handleFileChange = (e) => {
+  // Handle file upload to imgBB and update thumbnail URL in formValues
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormValues({
-        ...formValues,
-        thumbnail: file, // Set the file to the thumbnail state
-      });
+      setUploading(true);  // Show loading indicator
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+          params: { key: 'f2d1b1cdf2f7e2a3ddbf7d902911e4dc' },
+        });
+        const imageUrl = response.data.data.url;
+        
+        // Update thumbnail URL in form values
+        setFormValues({
+          ...formValues,
+          thumbnail: imageUrl,
+        });
+        setThumbnailPreview(URL.createObjectURL(file));
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      } finally {
+        setUploading(false);  // Hide loading indicator
+      }
     }
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    dispatch(clearError);
+    
     const formData = new FormData();
     for (const key in formValues) {
-      formData.append(key, formValues[key]);
+      const value = formValues[key];
+
+     formData.append(key, value);
+      
     }
-    console.log('Product data:', formData);
-    // Perform API call or other actions with form data here
+    
+    await dispatch(addProduct(formData));
   };
 
   return (
@@ -70,6 +148,16 @@ const ProductForm = () => {
       <Typography variant="h4" gutterBottom>
         Add Product
       </Typography>
+      {showError && error && (
+        <Alert severity="error" onClose={() => setShowError(false)}>
+          {error}
+        </Alert>
+      )}
+      {showSuccess && successMessage && (
+        <Alert severity="success" onClose={() => setShowError(false)}>
+          {successMessage}
+        </Alert>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           {/* Left Column */}
@@ -146,7 +234,7 @@ const ProductForm = () => {
               fullWidth
               value={formValues.rating}
               onChange={handleChange}
-              inputProps={{ min: 0, max: 5 }}
+              inputProps={{ min: 0, max: 5, step: 0.5 }}
             />
           </Grid>
 
@@ -212,17 +300,17 @@ const ProductForm = () => {
             />
             <label htmlFor="thumbnail">
               <Button variant="outlined" component="span" fullWidth>
-                Upload Thumbnail
+                {uploading ? <CircularProgress size={24} /> : 'Upload Thumbnail'}
               </Button>
             </label>
             {/* Preview Thumbnail */}
-            {formValues.thumbnail && (
+            {thumbnailPreview  && (
               <div>
                 <Typography variant="body2" gutterBottom>
                   Thumbnail Preview:
                 </Typography>
                 <img
-                  src={URL.createObjectURL(formValues.thumbnail)}
+                  src={thumbnailPreview}
                   alt="Thumbnail Preview"
                   style={{ width: '100px', height: 'auto' }}
                 />
@@ -266,11 +354,9 @@ const ProductForm = () => {
               onChange={handleChange}
             />
           </Grid>
-
-          {/* Submit Button */}
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit" fullWidth>
-              Add Product
+            <Button variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : 'Add Product'}
             </Button>
           </Grid>
         </Grid>

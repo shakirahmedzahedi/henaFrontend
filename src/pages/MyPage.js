@@ -23,7 +23,7 @@ const handleEditAddress = () => {
     console.log("Edit Address");
 };
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ padding: 2, minHeight:'78vh'}}>
       <Typography variant="h4" gutterBottom align="center">
         My Profile
       </Typography>

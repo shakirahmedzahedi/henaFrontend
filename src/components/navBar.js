@@ -30,10 +30,10 @@ export default function NavBar() {
                             },
                         }}
                     >
-                        <Tab value="/about" label="Products" component={Link} to="/about"/>
+                        <Tab value="/addProduct" label="Products" component={Link} to="/addProduct"/>
                         <Tab value="/contact" label="New Arrival" component={Link} to="/contact"/>
                         <Tab value="/signIn" label="Baby&Kids" component={Link} to="/signIn"/>
-                        <Tab value="/SignUp" label="Family&Mom" component={Link} to="/signUp"/>
+                        <Tab value="/allproduct" label="Family&Mom" component={Link} to="/allproduct"/>
                     </Tabs>
                 
                 </Grid>

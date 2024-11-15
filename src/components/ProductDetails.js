@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, Grid, CardMedia, TextField, IconButton, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import image from './../assets/one.jpg'
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductById } from '../reducer/services/ProductService';
 
 const ProductDetails = (props) => {
+  const { productId } = useParams(); // Get productId from the URL
+    const dispatch = useDispatch();
+    const product = useSelector((state) => state.product.product); // Assume you have selectedProduct in your state
+    const loading = useSelector((state) => state.product.loading);
+    const error = useSelector((state) => state.product.error);
+
+    useEffect(() => {
+        dispatch(fetchProductById(productId));
+    }, [dispatch, productId]);
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (type) => {
@@ -15,8 +27,8 @@ const ProductDetails = (props) => {
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', p: 4 }}>
          <Box sx={{ textAlign: 'center' }}>
-          <Typography variant='h1' align='left' color={'primary'} sx={{ fontFamily: 'Squada One', fontSize: { xs: '40px', md: '50px', lg: '60px' } }}>
-           Product Name and Details
+          <Typography variant='h1' align='left' color={'primary'} sx={{ fontFamily: 'Poppins', fontSize: { xs: '24px', md: '36px', lg: '36px' } }}>
+           {product?.title}
           </Typography>
         </Box>
         <Box >
@@ -24,51 +36,42 @@ const ProductDetails = (props) => {
         </Box >
       <Grid container spacing={4} sx={{ fontFamily: 'Poppins' }}>
         {/* Product Image */}
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={6}>
           <CardMedia
             component="img"
-            image={image}
+            image={product?.thumbnail}
             alt=""
             sx={{ borderRadius: 2, width: '100%', objectFit: 'cover' }}
           />
         </Grid>
 
         {/* Product Information */}
-        <Grid item xs={12} md={5} textAlign={'right'}>
-          <Typography variant="h4" fontWeight="bold" gutterBottom>
-            product.name
+        <Grid item xs={12} md={6} textAlign={'right'}>
+          <Typography variant="body2" fontWeight="bold" gutterBottom>
+            {product?.title}
           </Typography>
 
-          <Typography variant="h5" color="primary" sx={{ mb: 2 }}>
-            100BDT
+          <Typography variant="h5" color="primary" sx={{ mb: 1 }}>
+          ৳ {product?.price}
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            product.description
+          <Typography variant="h6" color="secondary" sx={{ mb: 1 }}>
+            {product?.discountPercentage}%
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>
+           { product?.brand}
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>
+           { product?.stock > 0 ?"In Stock":"Out of Stock"}
           </Typography>
 
           <Divider sx={{ my: 2 }} />
 
           {/* Size Options */}
           <Typography variant="subtitle1" sx={{ mb: 1 }}>Size</Typography>
-          <Button variant="outlined" sx={{ mr: 1 }}>100 ml</Button>
-          <Button variant="outlined">60 ml</Button>
+          <Button variant="outlined" size="small" sx={{ mr: 1 }}>{product?.size}</Button>
 
-          {/* Quantity Selector */}
-          <Box  sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-            <Typography variant="subtitle1" sx={{ mr: 2 }}>Quantity</Typography>
-            <IconButton onClick={() => handleQuantityChange('decrement')}>
-              <RemoveIcon />
-            </IconButton>
-            <TextField
-              value={quantity}
-              sx={{ width: 50, textAlign: 'center' }}
-              inputProps={{ readOnly: true, style: { textAlign: 'center' } }}
-            />
-            <IconButton onClick={() => handleQuantityChange('increment')}>
-              <AddIcon />
-            </IconButton>
-          </Box>
-
+          <Divider sx={{ my: 2 }} />
+ 
           {/* Add to Cart Button */}
           <Button  variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
             ADD TO CART
@@ -82,15 +85,15 @@ const ProductDetails = (props) => {
         <Typography variant="h6" gutterBottom>Description</Typography>
         
         <p>
-        No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and impartial tribunal, in the determination of his rights and obligations and of any criminal charge against him. No one shall be subjected to arbitrary interference with his privacy, family, home or correspondence, nor to attacks upon his honour and reputation. Everyone has the right to the protection of the law against such interference or attacks.
+       {product?.description}
         </p>
         <Divider sx={{ my: 2 }} />
         <Typography variant="h6" >
-          Product.additionalInfo
+          AdditionalInfo
         </Typography>
         
         <p>
-        No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and impartial tribunal, in the determination of his rights and obligations and of any criminal charge against him. No one shall be subjected to arbitrary interference with his privacy, family, home or correspondence, nor to attacks upon his honour and reputation. Everyone has the right to the protection of the law against such interference or attacks.
+        {product?.additionalInfo}
         </p>
         <Divider sx={{ my: 2 }} />
         <Typography variant="h6" >

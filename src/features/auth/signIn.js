@@ -27,6 +27,7 @@ const SignIn = (props) => {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.auth.loading);
     const responseError = useSelector((state) => state.auth.error);
+    const successMessage = useSelector((state) => state.auth.message);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const navigate = useNavigate();
@@ -166,6 +167,8 @@ const SignIn = (props) => {
                         {loading ? <CircularProgress size={24} /> : 'Sign In'}
                     </Button>
                     {message && <Typography color="secondary">{message}</Typography>}
+                    {responseError && <Typography color="secondary">{responseError}</Typography>}
+                    {successMessage && <Typography color="secondary">{successMessage}</Typography>}
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">

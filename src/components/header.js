@@ -42,6 +42,10 @@ export default function Header() {
         navigate('/myPage', { state: { user } });
         handleMenuClose();
     };
+    const handleAdminClick = () => {
+        navigate('/adminPortal', { state: { user } });
+        handleMenuClose();
+    };
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -174,6 +178,7 @@ export default function Header() {
                                 >
                                     <MenuItem onClick={ handleMyPageClick}>My Page</MenuItem>
                                     <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                    <MenuItem onClick={handleAdminClick}>Admin Portal</MenuItem>
                                 </Menu>
                             </>
                         ) : (

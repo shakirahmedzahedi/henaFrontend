@@ -22,6 +22,13 @@ import ProtectedRoute from "./special/ProtectedRoute ";
 import MyPage from "./pages/MyPage";
 import { authCheck } from './reducer/slices/AuthSlice';
 import AutoSignOut from './components/AutoSingOut';
+import ProductPage from './pages/ProductPage';
+import AdminHome from './admin/AdminHome';
+import Dashboard from './admin/dashboard/Dashboard';
+import CouponsSection from './admin/coupons/CouponsSection';
+import UsersSection from './admin/users/UsersSection';
+import ProductsSection from './admin/products.js/ProductsSection';
+
 
 
 
@@ -69,42 +76,53 @@ function App() {
     const user = JSON.parse(localStorage.getItem('user'));
     const isAuthenticate = localStorage.getItem('isAuthenticate');
     console.log("Auth Check - token, email, isAuthenticated:", token, email, isAuthenticate); // Log values
-  
+
     if (token && email && isAuthenticate) {
-        // Update Redux state with token and user data if token exists
-        dispatch(authCheck({ 
-                isAuthenticated: true,
-                token: token,
-                data: user
-        }));
+      // Update Redux state with token and user data if token exists
+      dispatch(authCheck({
+        isAuthenticated: true,
+        token: token,
+        data: user
+      }));
     }
-}, [dispatch]);
+  }, [dispatch]);
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <AutoSignOut/>
+          <AutoSignOut />
           <Header />
-          <Box sx={{ pt: { xs: '86px', md: '114px' }, pb: { xs: '86px', md: '114px' }}}>
-          <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/signIn" element={<SignInPage />} />
-            <Route path="/signUp" element={<SignUpPage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/addProduct" element={<AddProductPage/>} />
-            <Route path="/legal" element={<TermsAndConditionPage/>} />
-            <Route path="/cart" element={<ProtectedRoute><CartPage/></ProtectedRoute>} />
-            <Route path="/myPage" element={<ProtectedRoute><MyPage/></ProtectedRoute>} />
-            <Route path="/payment" element={<PaymentPage/>} />
-            <Route path="/productDetails" element={<ProductDetails/>} />
-          </Routes>
-          </Box>
-        {/* <ProductCard/> */}
+          <Box sx={{ pt: { xs: '86px', md: '90px' }, pb: { xs: '0px', md: '0px' } }}>
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="/signIn" element={<SignInPage />} />
+              <Route path="/signUp" element={<SignUpPage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/allproduct" element={<ProductPage />} />
+              <Route path="/addProduct" element={<ProtectedRoute><AddProductPage /></ProtectedRoute>} />
+              <Route path="/legal" element={<TermsAndConditionPage />} />
+              <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+              <Route path="/myPage" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
 
-        <Footer />
+              <Route path="/adminPortal/*" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} >
+                <Route path="" element={<Dashboard />} /> 
+                <Route path="orders" element={<CouponsSection />} /> 
+                <Route path="users" element={<UsersSection />} /> 
+                <Route path="coupons" element={<CouponsSection />} /> 
+                <Route path="products" element={<ProductsSection />} /> 
+              </Route>
+
+              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/productDetails/:productId" element={<ProductDetails />} />
+            </Routes>
+
+          </Box>
+
+
+          <Footer />
         </Router>
 
       </ThemeProvider>
