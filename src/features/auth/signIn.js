@@ -111,6 +111,7 @@ const SignIn = (props) => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         id="email"
                         label="Email Address"
                         name="email"
@@ -124,6 +125,7 @@ const SignIn = (props) => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         name="password"
                         label="Password"
                         value={inputs.password}
@@ -171,7 +173,7 @@ const SignIn = (props) => {
                     {successMessage && <Typography color="secondary">{successMessage}</Typography>}
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <Link to={"/resetPassword"} variant="body2">
                                 Forgot password?
                             </Link>
                         </Grid>

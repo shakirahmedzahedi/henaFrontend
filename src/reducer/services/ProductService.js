@@ -1,5 +1,5 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import { post, get } from './../api/APIService';
+import { post, get, patch } from './../api/APIService';
 import axios from 'axios';
 
 
@@ -86,9 +86,17 @@ export const addProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   'products/updateProduct',
-  async ({ productId, updatedData }) => {
-    const response = await axios.put(`/${productId}`, updatedData);
-    return response.data;
+  async ({ productId, updatedData }, {rejectWithValue}) => {
+    try{
+    const response = await patch(`/whoIsBoss/admin/product/updateProduct/{id}?id=${productId}`, updatedData);
+    if (response.errors.length > 0) {
+      return rejectWithValue(response.errors[0].message);
+  }
+
+  return response.data;
+} catch (error) {
+  return rejectWithValue(error.response.data);
+}
   }
 );
 

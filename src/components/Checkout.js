@@ -6,7 +6,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart, deleteCart, feachActiveCartsByUser } from '../reducer/services/CartService';
-import { fetchCouponByNumber } from '../reducer/services/DiscountCouponService';
+import { fetchCouponByNumber, clearError } from '../reducer/services/DiscountCouponService';
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -15,12 +15,14 @@ const Checkout = () => {
   const discountedcoupon = useSelector((state) => state.coupon.discountedCoupon); // Coupon state
   const articles = activeCart?.articles;
   const userId = user.id;
+  const error = useSelector((state)=> state.coupon.error);
   const [discountCodeValue, setDiscountCodeValue] = useState('');
   const [subtotal, setSubtotal] = useState(0);
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    dispatch(clearError());
     if (user?.id) {
       dispatch(feachActiveCartsByUser(user.id));
     }
@@ -39,7 +41,10 @@ const Checkout = () => {
   // Recalculate the total whenever the coupon or subtotal changes
   useEffect(() => {
     console.log(discountedcoupon?.discountAmount);
-    let calculatedTotal = subtotal + tax;
+    let calculatedTotal = subtotal;
+    if(user?.initialDiscount){
+      calculatedTotal -= 200.00;
+    }
     if (discountedcoupon) {
      
       calculatedTotal -= discountedcoupon?.discountAmount; // Apply discount
@@ -60,27 +65,54 @@ const Checkout = () => {
   };
 
   const calculateSubtotal = () => {
-    return articles?.reduce((acc, item) => acc + item.product.price * item.unit, 0);
+    return articles?.reduce((acc, item) => {
+      const price = item.product.discountPercentage
+        ? item.product.price - (item.product.price * item.product.discountPercentage) / 100
+        : item.product.price;
+      return acc + price * item.unit;
+    }, 0);
+  };
+
+  const calculateItemTotal = (item) => {
+    
+   
+      const price = item.product.discountPercentage
+        ? item.product.price - (item.product.price * item.product.discountPercentage) / 100
+        : item.product.price;
+
+        return price* item.unit;
   };
 
   const calculateTax = (subtotal) => {
     return subtotal * 0.1; // Assume 10% tax rate
   };
 
+  const calculateDiscountedPrice = (price, discount) => {
+    return discount ? (price - (price * discount) / 100).toFixed(2) : price.toFixed(2);
+  };
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDiscountCodeValue(value);
   };
 
-  const handleClickUseCoupon = () => {
-    console.log("click");
-    dispatch(fetchCouponByNumber(discountCodeValue));
+  const handleClickUseCoupon = async() => {
+    try {
+      await dispatch(fetchCouponByNumber(discountCodeValue)).unwrap(); // Resolves or throws
+     
+      console.log('Coupon applied successfully!');
+    } catch (error) {
+      console.error('Error applying coupon:', error); // Logs the rejection reason (e.g., 'Invalid Coupon')
+    } finally {
+      setDiscountCodeValue('');
+    }
   };
 
   return (
-    <Box>
+    <Box >
       <Box sx={{ textAlign: 'center' }}>
-        <Typography variant="h6" align="center" color="primary" sx={{ fontFamily: 'Squada One', fontSize: { xs: '40px', md: '50px', lg: '60px' } }}>
+        <Typography variant="h3" align="center" color="primary" sx={{  fontSize: { xs: '24px', md: '36px', lg: '36px' } } }>
           Checkout
         </Typography>
       </Box>
@@ -109,7 +141,27 @@ const Checkout = () => {
                   {/* Product Details */}
                   <ListItemText
                     primary={item.product.title}
-                    secondary={`Price: BDT${item.product.price}`}
+                    secondary={
+                      <>
+                        {item.product.discountPercentage ? (
+                          <>
+                            <Typography
+                              variant="body2"
+                              sx={{ textDecoration: 'line-through', color: 'text.secondary' }}
+                            >
+                              BDT {item.product.price}
+                            </Typography>
+                            <Typography variant="body2" fontWeight="bold" color="primary">
+                              BDT {calculateDiscountedPrice(item.product.price, item.product.discountPercentage)}
+                            </Typography>
+                          </>
+                        ) : (
+                          <Typography variant="body2" fontWeight="bold">
+                            BDT {item.product.price}
+                          </Typography>
+                        )}
+                      </>
+                    }
                     sx={{ flex: 1 }}
                   />
 
@@ -133,7 +185,7 @@ const Checkout = () => {
 
                   {/* Total Price for Item */}
                   <Typography variant="body1" color="text.primary" sx={{ ml: 2 }}>
-                    BDT {(item.product.price * item.unit)}
+                    BDT {calculateItemTotal(item)}
                   </Typography>
                 </ListItem>
               ))}
@@ -147,6 +199,8 @@ const Checkout = () => {
 
         {/* Right Side: Order Summary */}
         <Grid item textAlign={'right'} xs={12} md={4} pl={3}>
+          {articles?.length > 0 ? (
+            <>
           <Typography variant="h5" textAlign={'center'} gutterBottom>
             Order Summary
           </Typography>
@@ -166,21 +220,31 @@ const Checkout = () => {
               BDT {tax}
             </Typography>
           </Box>
+          {user?.initialDiscount && (
+            <Box sx={{ mb: 2 }}>
+            <Typography variant="body1">Welcome Discount:</Typography>
+              <Typography variant="body1" color="text.secondary">
+                BDT 200.00
+              </Typography>
+          </Box>
+          )}
+          
 
-          <Box sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <Box sx={{ mb: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             <TextField
               size="small"
               label="Discount Code"
               name="discountCode"
               value={discountCodeValue}
               onChange={handleChange}
-              inputProps={{ min: 0 }}
+              inputProps={{ maxLength: 6 }}
               sx={{ width: '200px' }} // margin-right to space out from the button
             />
-            <Button ml={2} color="error" size="small" onClick={() => handleClickUseCoupon()}>
+            <Button ml={2} color="error" size="small"  disabled = {discountCodeValue.length != 6} onClick={() => handleClickUseCoupon()}>
               Verify
             </Button>
           </Box>
+          {error && <Typography variant="body1" color={'primary'}>{error}</Typography>}
 
           <Box sx={{ mb: 2 }}>
             <Typography variant="body1">Discount:</Typography>
@@ -191,6 +255,7 @@ const Checkout = () => {
             )}
           </Box>
 
+
           <Box sx={{ mb: 2 }}>
             <Typography variant="h6" fontWeight="bold">
               Total:
@@ -200,9 +265,10 @@ const Checkout = () => {
             </Typography>
           </Box>
           <Divider sx={{ my: 2 }} />
-          <Button component={Link} to="/payment" sx={{ mt: 5 }} variant="contained" color="primary" fullWidth>
+          <Button component={Link} to="/payment" sx={{ mt: 2, mb: 2 }} variant="contained" color="primary" fullWidth>
             Proceed to Checkout
           </Button>
+          </>) : null}
         </Grid>
       </Grid>
     </Box>

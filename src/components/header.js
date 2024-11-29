@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './../assets/logo1.png';
-import { AppBar, Tabs, Tab, Button, Grid, Toolbar, useTheme, useMediaQuery, Typography, Box, IconButton, Badge, TextField, InputAdornment, Avatar, Menu, MenuItem } from '@mui/material'
+import { AppBar, Tabs, Tab, Button, Grid, Toolbar, useTheme, useMediaQuery, Typography, Box, IconButton, 
+    Badge, TextField, InputAdornment, Avatar, Menu, MenuItem } from '@mui/material'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
@@ -11,6 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../reducer/services/AuthService';
 import { clearError } from '../reducer/slices/AuthSlice';
+import NewNavBar from './NewNavBar';
 
 export default function Header() {
     const theme = useTheme();
@@ -56,6 +58,7 @@ export default function Header() {
         console.log("Sign Out clicked.....");
         dispatch(logOut());
         handleMenuClose();
+        navigate('/signIn');
     };
 
     useEffect(() => {
@@ -68,21 +71,22 @@ export default function Header() {
         <>
             <Grid container  >
 
-                <Grid item xs={3} pt={1} style={{ textAlign: 'left' }}>
+                <Grid item xs={2} pt={1} style={{ textAlign: 'left' }}>
+                    <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <img
+                            src={logo}
+                            alt={logo}
+                            style={{ width: '190px', height: '55px' }}
 
-                    <img
-                        src={logo}
-                        alt={logo}
-                        style={{ width: '190px', height: '55px' }}
-
-                    />
-
-                </Grid>
-                <Grid item xs={7} mt={1} style={{ textAlign: 'left' }}>
-                    <NavBar />
+                        />
+                    </Link>
 
                 </Grid>
-                <Grid item xs={2} style={{ textAlign: 'right' }}>
+                <Grid item xs={10} mt={1} style={{ textAlign: 'left' }}>
+                    <NewNavBar/>
+
+                </Grid>
+                {/* <Grid item xs={2} style={{ textAlign: 'right' }}>
 
                     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <TextField
@@ -114,7 +118,7 @@ export default function Header() {
                     </Box>
 
                     <Box
-                        mt={1}
+                        mt={2}
                         sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', maxWidth: '250px', }}
                     >
 
@@ -123,21 +127,21 @@ export default function Header() {
                             <Badge badgeContent={4} color="primary">
                                 <FavoriteBorderIcon color="primary" sx={{ fontSize: 25 }} />
                             </Badge>
-                            {!isScreenSmall && <Typography variant="subtitle2" sx={{ ml: 3 }}>Favorite</Typography>}
+                            {/* {!isScreenSmall &&  <Typography variant="subtitle2" sx={{ ml: 1 }}>Favorite</Typography>
                         </Box>
                         <Link to={'/cart'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <Box ml={3} sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box ml={1} sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Badge badgeContent={4} color="primary">
                                     <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
                                 </Badge>
-                                {!isScreenSmall && <Typography variant="subtitle2" sx={{ ml: 3, textDecoration: 'none' }}>Cart</Typography>}
+                                {/* {!isScreenSmall & <Typography variant="subtitle2" sx={{ ml: 1, textDecoration: 'none' }}>Cart</Typography>
                             </Box>
                         </Link>
 
                         {isAuthenticated ? (
                             <>
-                                <IconButton onClick={handleMenuOpen}>
-                                    <Avatar sx={{width: 24, height: 24,bgcolor: 'primary.main' }}>
+                                <IconButton ml={1} onClick={handleMenuOpen}>
+                                    <Avatar sx={{ width: 24, height: 24, bgcolor: 'primary.main' }}>
                                         {user.email.charAt(0).toUpperCase()}
                                     </Avatar>
                                 </IconButton>
@@ -147,52 +151,54 @@ export default function Header() {
                                     onClose={handleMenuClose}
                                     slotProps={{
                                         paper: {
-                                          elevation: 0,
-                                          sx: {
-                                            overflow: 'visible',
-                                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                            mt: 1.5,
-                                            '& .MuiAvatar-root': {
-                                              width: 32,
-                                              height: 32,
-                                              ml: -0.5,
-                                              mr: 1,
+                                            elevation: 0,
+                                            sx: {
+                                                overflow: 'visible',
+                                                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                                mt: 1.5,
+                                                '& .MuiAvatar-root': {
+                                                    width: 32,
+                                                    height: 32,
+                                                    ml: -0.5,
+                                                    mr: 1,
+                                                },
+                                                '&::before': {
+                                                    content: '""',
+                                                    display: 'block',
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    right: 14,
+                                                    width: 10,
+                                                    height: 10,
+                                                    bgcolor: 'background.paper',
+                                                    transform: 'translateY(-50%) rotate(45deg)',
+                                                    zIndex: 0,
+                                                },
                                             },
-                                            '&::before': {
-                                              content: '""',
-                                              display: 'block',
-                                              position: 'absolute',
-                                              top: 0,
-                                              right: 14,
-                                              width: 10,
-                                              height: 10,
-                                              bgcolor: 'background.paper',
-                                              transform: 'translateY(-50%) rotate(45deg)',
-                                              zIndex: 0,
-                                            },
-                                          },
                                         },
-                                      }}
-                                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                    }}
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 >
-                                    <MenuItem onClick={ handleMyPageClick}>My Page</MenuItem>
+                                    <MenuItem onClick={handleMyPageClick}>My Page</MenuItem>
                                     <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-                                    <MenuItem onClick={handleAdminClick}>Admin Portal</MenuItem>
+                                    {user?.roles.includes('ADMIN') &&
+                                        <MenuItem onClick={handleAdminClick}>Admin Portal</MenuItem>
+                                    }
                                 </Menu>
                             </>
                         ) : (
                             <Link to={'/signIn'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', mr: 1, cursor: 'pointer' }} >
+                                <Box ml={1} sx={{ display: 'flex', alignItems: 'center', mr: 1, cursor: 'pointer' }} >
                                     <AssignmentIndOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
-                                    {!isScreenSmall && <Typography variant="subtitle2" sx={{ ml: 1 }}>SignIn</Typography>}
+                                    {/* {!isScreenSmall &&  <Typography variant="subtitle2" sx={{ ml: 1 }}>SignIn</Typography>
                                 </Box>
                             </Link>
                         )}
 
 
                     </Box>
-                </Grid>
+                </Grid> */}
             </Grid>
 
         </>
@@ -202,7 +208,7 @@ export default function Header() {
 
     );
 
-    const smallContent = (
+   /*  const smallContent = (
         <Grid container  >
 
 
@@ -218,39 +224,112 @@ export default function Header() {
 
             </Grid>
             <Grid item xs={4} style={{ textAlign: 'right' }}>
+
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <TextField
+                            placeholder="Search..."
+                            size="small"
+                            variant="outlined"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon color="primary" />
+                                    </InputAdornment>
+                                ),
+                                disableUnderline: true,  // Removes the underline
+
+                            }}
+                            sx={{
+                                width: '100%',
+                                borderRadius: 5,
+                                maxWidth: '250px',
+                                borderRadius: '16px', // Increase border radius for a more rounded appearance
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '16px',
+                                    backgroundColor: 'lightgray'
+                                    // Make the outline border curvy as well
+                                },
+
+                            }}
+                        />
+                    </Box>
+
+
                 <Box
                     mt={2}
                     sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
                 >
-                    {/* <Link to={'/signIn'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mr: 1, cursor: 'pointer' }} >
-                            <AssignmentIndOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
-                        </Box>
-                    </Link>
- */}
-                    {isAuthenticated ? (
-                        <IconButton onClick={handleMenuOpen}>
-                            <Avatar sx={{ bgcolor: 'primary.main' }}>
-                                {user.firstName.charAt(0).toUpperCase()}
-                            </Avatar>
-                        </IconButton>
-                    ) : (
-                        <Link to={'/signIn'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <AssignmentIndOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
-                        </Link>
-                    )}
-                    <Link to={'/cart'} style={{ textDecoration: 'none', color: 'inherit' }}>
+
+                    <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Badge badgeContent={4} color="primary">
-                            <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
+                            <FavoriteBorderIcon color="primary" sx={{ fontSize: 25 }} />
                         </Badge>
                     </Link>
                     <Link to={'/cart'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box  ml={2} sx={{ display: 'flex', alignItems: 'center' }}>
                             <Badge badgeContent={4} color="primary">
                                 <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
                             </Badge>
                         </Box>
                     </Link>
+
+                    {isAuthenticated ? (
+                        <>
+                        <IconButton onClick={handleMenuOpen}>
+                            <Avatar sx={{ width: 24, height: 24, bgcolor: 'primary.main' }}>
+                                {user.firstName.charAt(0).toUpperCase()}
+                            </Avatar>
+                        </IconButton>
+                        <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                        slotProps={{
+                            paper: {
+                                elevation: 0,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                    '& .MuiAvatar-root': {
+                                        width: 32,
+                                        height: 32,
+                                        ml: -0.5,
+                                        mr: 1,
+                                    },
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 14,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: 'background.paper',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        zIndex: 0,
+                                    },
+                                },
+                            },
+                        }}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    >
+                        <MenuItem onClick={handleMyPageClick}>My Page</MenuItem>
+                        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                        {user?.roles.includes('ADMIN') &&
+                            <MenuItem onClick={handleAdminClick}>Admin Portal</MenuItem>
+                        }
+                    </Menu>
+                </>
+
+                    ) : (
+                        <Link to={'/signIn'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Box  ml={2} sx={{ display: 'flex', alignItems: 'center', mr: 1, cursor: 'pointer' }} >
+                                <AssignmentIndOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
+                            </Box>
+                        </Link>
+                    )}
                 </Box>
             </Grid>
 
@@ -258,13 +337,13 @@ export default function Header() {
         </Grid>
 
 
-    )
+    ) */
 
-
+//smallScreen ? smallContent :
     return (
         <AppBar position="fixed" color="inherit" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
             <Toolbar sx={{ flexDirection: 'column', width: '100%' }}>
-                {smallScreen ? smallContent : bigContent}
+                { bigContent}
             </Toolbar>
         </AppBar>
     );

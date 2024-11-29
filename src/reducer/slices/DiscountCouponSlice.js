@@ -14,7 +14,11 @@ const initialState = {
   const couponSlice = createSlice({
     name: 'coupons',
     initialState,
-    reducers: {},
+    reducers: {
+      clearCoupon: (state) => {
+          state.discountedCoupon = null;
+      },
+  },
     extraReducers: (builder) => {
       builder
       .addCase(clearError, (state) => {
@@ -45,7 +49,7 @@ const initialState = {
         })
         .addCase(fetchCouponByNumber.rejected, (state, action) => {
           state.loading = false;
-          state.error = action.error.message;
+          state.error = action.payload ? action.payload : action.error.message;
         })
         .addCase(generateNewCoupon.pending, (state) => {
           state.loading = true;
@@ -63,4 +67,5 @@ const initialState = {
     }   
   });
   
+  export const { clearCoupon } = couponSlice.actions;
   export default couponSlice.reducer;

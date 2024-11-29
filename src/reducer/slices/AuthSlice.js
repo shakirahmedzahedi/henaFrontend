@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {signIn, signUp} from './../services/AuthService';
+import {signIn, signUp, updateAddress, addToFavorite, removeFromFavorite, fetchUserById} from './../services/AuthService';
 
 const authSlice = createSlice({
     name: 'auth',
@@ -18,6 +18,10 @@ const authSlice = createSlice({
         authCheck: (state, action) => {
             state.isAuthenticated = action.payload.isAuthenticated;
             state.token = action.payload.token;
+            state.user = action.payload.data;
+        },
+        fetchFavorite: (state, action) => {
+            console.log(action.payload);
             state.user = action.payload.data;
         },
         signout: (state) => {
@@ -57,9 +61,65 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
                
+            })
+            .addCase(updateAddress.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateAddress.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                
+            })
+            .addCase(updateAddress.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+               
+            })
+            .addCase(addToFavorite.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addToFavorite.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                
+            })
+            .addCase(addToFavorite.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+               
+            })
+            .addCase(removeFromFavorite.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(removeFromFavorite.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                
+            })
+            .addCase(removeFromFavorite.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+               
+            })
+            .addCase(fetchUserById.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUserById.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                
+            })
+            .addCase(fetchUserById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+               
             });
     }
 });
 
-export const { clearError, authCheck, signout } = authSlice.actions;
+export const { clearError, authCheck, signout, fetchFavorite } = authSlice.actions;
 export default authSlice.reducer;

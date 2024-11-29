@@ -22,7 +22,7 @@ const ProductForm = () => {
   const loading = useSelector((state)=> state.product.loading);
   const error = useSelector((state)=> state.product.error);
   const successMessage = useSelector((state)=> state.product.success);
-  const categories = ['BABY', 'FAMILY&MOM', 'NEWARRIVAL'];
+  const categories = ['BABY_AND_KIDS', 'FAMILY_AND_MOM', 'NEW_ARRIVAL'];
   const tagsOptions = ['NEWBORN', 'TODDLER', 'CHILDREN', 'MOM'];
 
    const [formValues, setFormValues] = useState({

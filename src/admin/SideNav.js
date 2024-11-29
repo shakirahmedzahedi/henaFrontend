@@ -10,7 +10,7 @@ import { Menu, MenuItem, Sidebar, sidebarClasses } from 'react-pro-sidebar';
 
 
 
-const SideNav = ({ collapsed }) => {
+const SideNav = ({ collapsed, headerHeight = 100 }) => {
 
   const theme = useTheme();
 
@@ -19,9 +19,11 @@ const SideNav = ({ collapsed }) => {
     elevation={3}
     backgroundColor={theme.palette.info.dark}
     sx={{
-      height: '80vh', 
+      height: `calc(100vh - ${headerHeight}px)`, // Sidebar height accounts for header height
       width: 'auto',
       display: 'flex',
+      position: 'sticky', // Makes it sticky
+      top: `${headerHeight}px`, // Adjust the top position to align below the header
     }}
     >
       <Sidebar collapsed={collapsed}>

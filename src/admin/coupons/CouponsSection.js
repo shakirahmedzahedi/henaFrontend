@@ -3,9 +3,11 @@ import { Box, Typography, Grid, Button, Dialog, DialogActions, DialogContent, Di
 import GradientCard from '../../special/GradientCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { generateNewCoupon } from '../../reducer/services/DiscountCouponService';
+import { useNavigate } from 'react-router';
 
 const CouponsSection = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.auth.user);
     const coupon = useSelector((state) => state.coupon.coupon);
     const loading = useSelector((state) => state.coupon.loading); // Loading state to track API call
@@ -48,12 +50,16 @@ const CouponsSection = () => {
         }
     }, [coupon, couponGenerated]); // Dependency on coupon and couponGenerated flag
 
+    const handleShowAllCoupons = () => {
+        navigate('/adminPortal/coupons/allCoupons');
+    };
+
     return (
         <>
             <Box sx={{ textAlign: 'center', p: 3 }}>
                 {/* Title Section */}
                 <Typography variant="h4" sx={{ mb: 3 }}>
-                    Coupon Generation
+                    Coupon Section
                 </Typography>
 
                 {/* Cards Container using Grid */}
@@ -61,7 +67,7 @@ const CouponsSection = () => {
                     {/* First Card with Click Event */}
                     <Grid item xs={12} sm={6} md={4} onClick={handleOpen}>
                         <GradientCard
-                            text="Card 1"
+                            text="New Coupon"
                             gradientColors={['#4e54c8', '#8f94fb']}
                             height={200}
                             textColor="#ffffff"
@@ -69,9 +75,9 @@ const CouponsSection = () => {
                     </Grid>
 
                     {/* Second Card */}
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={4} onClick={handleShowAllCoupons}>
                         <GradientCard
-                            text="Card 2"
+                            text="Show all Coupons"
                             gradientColors={['#ff6a00', '#ee0979']}
                             height={200}
                             textColor="#ffffff"

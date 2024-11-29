@@ -30,11 +30,14 @@ export const fetchCouponByNumber = createAsyncThunk(
     try {
     const response = await get(`/discountCoupon/findCoupon/?couponNumber=${couponNumber}`);
     if (response.errors.length > 0) {
+      
         return rejectWithValue(response.errors[0].message);
     }
 
     return response.data;
   } catch (error) {
+    console.log(error);
+
     return rejectWithValue(error.response.data);
   }
 }

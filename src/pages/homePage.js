@@ -15,104 +15,134 @@ import ImageSlider from '../components/ImageSlider';
 
 const homePage = () => {
   return (
-    <Box sx={{ ml: {xs:2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs:2, sm: 3, md: 15, lg: 19, xl: 23 } }}>
+    <Box >
 
-      <Box >
+      <Box sx={{ ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 } }} >
 
         <ImageSlider />
       </Box>
 
 
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3, ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 } }}>
         <AgeLimitSection />
       </Box>
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3, ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 } }}>
         <CatagorySection />
       </Box>
-      <Box sx={{ mt: 3 }}>
-        <BestSellerSection />
+      <Box sx={{ mt: 3, ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 } }}>
+         <BestSellerSection />
       </Box>
 
 
 
-      <Box sx={{ mt: 3 }}>
-        <Box sx={{ textAlign: 'center' }}>
-        <Typography variant='h1' align='left' color={'primary'} sx={{ fontFamily: 'Squada One', fontSize: { xs: '20px', md: '24px', lg: '36px' } }}>
-           Hena Promies
-          </Typography>
-        </Box>
-        {/* <Box >
-          <Divider sx={{ bgcolor: 'secondary.main', minHeight: '.2vh' }} />
-        </Box > */}
-        <Box sx={{ textAlign: 'center' }}>
-          <Grid container alignItems={'center'} spacing={1} mt={2} >
-
-            <Grid item xs={12} sm={6} md={3} lg={3} xl={3} sx={{ mt: 2 }}>
-              <img
-                src={truck}
-                alt={truck}
-                style={{ width: '125px', height: '100px' }}
-
-              />
-              <Typography gutterBottom variant="h6" component="div" sx={{ fontFamily: 'Squada One', fontSize: { xs: '15px', md: '20px', lg: '25px' } }}>
-                Home Delivery
+      <Box sx={{ mt: 3, p: 2, background: '#edebeb' }}>
+        <Box sx={{ mt: 3, ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 } }}>
+          <Grid container alignItems="center">
+            <Grid item xs={12} lg={3}>
+              <Typography
+                variant="h4"
+                align="center" // Centers title horizontally
+                color="primary"
+                sx={{
+                  
+                  fontSize: { xs: '16px', md: '20px', lg: '28px' }, // Adjusted font size
+                }}
+              >
+                Hena Promies
               </Typography>
-
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3} lg={3} xl={3} sx={{ mt: 2 }}>
-              <img
-                src={hand}
-                alt={hand}
-                style={{ width: '125px', height: '100px' }}
+            {/* Features Section */}
+            <Grid item xs={12} lg={9}>
+              <Grid container alignItems="center" spacing={2}>
+                <Grid item xs={12} sm={6} md={3}>
+                  <Box textAlign="center">
+                    <img
+                      src={truck}
+                      alt="Home Delivery"
+                      style={{ width: '80px', height: '65px' }} // Reduced size
+                    />
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        fontFamily: 'Squada One',
+                        fontSize: { xs: '12px', md: '16px', lg: '20px' }, // Reduced text size
+                      }}
+                    >
+                      Home Delivery
+                    </Typography>
+                  </Box>
+                </Grid>
 
-              />
-              <Typography gutterBottom variant="h6" component="div" sx={{ fontFamily: 'Squada One', fontSize: { xs: '15px', md: '20px', lg: '25px' } }}>
-                Price Garantee
-              </Typography>
+                <Grid item xs={12} sm={6} md={3}>
+                  <Box textAlign="center">
+                    <img
+                      src={hand}
+                      alt="Price Guarantee"
+                      style={{ width: '80px', height: '65px' }} // Reduced size
+                    />
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        fontFamily: 'Squada One',
+                        fontSize: { xs: '12px', md: '16px', lg: '20px' }, // Reduced text size
+                      }}
+                    >
+                      Price Guarantee
+                    </Typography>
+                  </Box>
+                </Grid>
 
+                <Grid item xs={12} sm={6} md={3}>
+                  <Box textAlign="center">
+                    <img
+                      src={sale}
+                      alt="Low Price"
+                      style={{ width: '80px', height: '65px' }} // Reduced size
+                    />
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        fontFamily: 'Squada One',
+                        fontSize: { xs: '12px', md: '16px', lg: '20px' }, // Reduced text size
+                      }}
+                    >
+                      Low Price
+                    </Typography>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                  <Box textAlign="center">
+                    <img
+                      src={customer}
+                      alt="24/7 Customer Service"
+                      style={{ width: '80px', height: '65px' }} // Reduced size
+                    />
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        fontFamily: 'Squada One',
+                        fontSize: { xs: '12px', md: '16px', lg: '20px' }, // Reduced text size
+                      }}
+                    >
+                      24/7 Customer Service
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} sm={6} md={3} lg={3} xl={3} sx={{ mt: 2 }}>
-              <img
-                src={sale}
-                alt={sale}
-                style={{ width: '125px', height: '100px' }}
-
-              />
-              <Typography gutterBottom variant="h6" component="div" sx={{ fontFamily: 'Squada One', fontSize: { xs: '15px', md: '20px', lg: '25px' } }}>
-                Low Price
-              </Typography>
-
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={3} lg={3} xl={3} sx={{ mt: 2 }}>
-              <img
-                src={customer}
-                alt={customer}
-                style={{ width: '125px', height: '100px' }}
-
-              />
-              <Typography gutterBottom variant="h6" component="div" sx={{ fontFamily: 'Squada One', fontSize: { xs: '15px', md: '20px', lg: '25px' } }}>
-                24/7 Customer Service
-              </Typography>
-
-            </Grid>
-
           </Grid>
         </Box>
       </Box>
-
-
-
-
-     {/*  <Box sx={{ mt: 2 }}>
-        <ProductDetails />
-      </Box>
-      <Box sx={{ mt: 2 }}>
-        <Checkout />
-      </Box>
- */}
 
     </Box>
   )

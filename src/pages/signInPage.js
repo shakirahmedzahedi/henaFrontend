@@ -24,7 +24,7 @@ const SignInPage = () => {
     }, [location]);
     return (
         <div>
-            <Box sx={{ ml: { sm: 3, md: 15, lg: 19, xl: 23 }, mr: { sm: 3, md: 15, lg: 19, xl: 23 } }}>
+            <Box sx={{ minHeight: '65vh', ml: { sm: 3, md: 15, lg: 19, xl: 23 }, mr: { sm: 3, md: 15, lg: 19, xl: 23 } }}>
 
             <Grid container alignItems={'center'} justifyContent={'center'} style={{ textAlign: 'center',marginTop:'50px'}}>
                 <Grid item  md={5} lg={6} sx={{ textAlign: 'center', display:{xs:'none',lg:'block'}  }}

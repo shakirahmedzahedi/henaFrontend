@@ -1,6 +1,6 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { post } from './../api/APIService';
+import { patch, post, get } from './../api/APIService';
 import { signout } from '../slices/AuthSlice';
 
 // Define async thunk for signIn
@@ -59,3 +59,71 @@ export const logOut = createAsyncThunk(
      return true;
 
 });
+
+export const updateAddress = createAsyncThunk(
+    'auth/updateAddress',
+    async (userData, { rejectWithValue }) => {
+        try {
+            const response = await patch('/user/updateAddress', userData);
+            if (response.errors.length > 0) {
+                return rejectWithValue(response.errors[0].message);
+            }
+            // Return success data
+            return response.data;
+        } catch (error) {
+    
+            return rejectWithValue('Failed to register user. Please try again later.');
+        }
+    }
+);
+
+export const fetchUserById = createAsyncThunk(
+    'auth/fetchUserById',
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await get(`/user/fetchUser?userId=${id}`);
+            if (response.errors.length > 0) {
+                return rejectWithValue(response.errors[0].message);
+            }
+           
+            return response.data;
+        } catch (error) {
+    
+            return rejectWithValue('Failed to register user. Please try again later.');
+        }
+    }
+);
+
+export const addToFavorite = createAsyncThunk(
+    'auth/addToFavorite',
+    async (req, { rejectWithValue }) => {
+        try {
+            const response = await post('/user/addToFavorite', req);
+            if (response.errors.length > 0) {
+                return rejectWithValue(response.errors[0].message);
+            }
+           
+            return response.data;
+        } catch (error) {
+    
+            return rejectWithValue('Failed to register user. Please try again later.');
+        }
+    }
+);
+
+export const removeFromFavorite = createAsyncThunk(
+    'auth/removeFromFavorite',
+    async (req, { rejectWithValue }) => {
+        try {
+            const response = await post('/user/removeFromFavorite', req);
+            if (response.errors.length > 0) {
+                return rejectWithValue(response.errors[0].message);
+            }
+           
+            return response.data;
+        } catch (error) {
+    
+            return rejectWithValue('Failed to register user. Please try again later.');
+        }
+    }
+);

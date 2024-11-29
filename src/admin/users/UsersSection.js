@@ -1,11 +1,11 @@
 import { Typography } from '@mui/material'
 import React from 'react'
+import UserTable from './UserTable'
 
 const UsersSection = () => {
   return (
     <div>
-        <Typography variant='h1'>Users Section in the Admin</Typography>
-      
+       <UserTable/>
     </div>
   )
 }

@@ -35,7 +35,11 @@ const request = async (method, url, data = null) => {
 
         // Check for token in the response headers or data and update if available
         const newToken = /* response.headers['Authorization'] || */ response.data?.token;
-        saveToken(newToken);
+        if (newToken !== null)
+          {
+            saveToken(newToken);
+          }
+        
         console.log(newToken);
 
         return response.data; // Return only data

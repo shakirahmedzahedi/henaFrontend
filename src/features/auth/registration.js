@@ -125,6 +125,7 @@ const Registration = () => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         id="firstName"
                         label="First Name"
                         name="firstName"
@@ -138,6 +139,7 @@ const Registration = () => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         id="lastName"
                         label="Last Name"
                         name="lastName"
@@ -150,6 +152,7 @@ const Registration = () => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         id="email"
                         label="Email Address"
                         name="email"
@@ -162,6 +165,7 @@ const Registration = () => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         name="password"
                         label="Password"
                         value={inputs.password}
@@ -188,6 +192,7 @@ const Registration = () => {
                         margin="normal"
                         required
                         fullWidth
+                        size='small'
                         id="phoneNo"
                         label="Phone No"
                         name="phoneNo"
