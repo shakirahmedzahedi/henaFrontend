@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.27334dcc.css",
+    "main.js": "/static/js/main.8524ee4f.js",
+    "static/media/children.jpg": "/static/media/children.95b4f461926b84178dc7.jpg",
+    "static/media/mom.jpg": "/static/media/mom.65882c327d3f3bcc72a7.jpg",
+    "static/media/family.jpg": "/static/media/family.ccc2a1aa91c096f3c421.jpg",
+    "static/media/logo.png": "/static/media/logo.bfd49bda6439fdb35c5d.png",
+    "static/media/banner_one.png": "/static/media/banner_one.705943c5404153b16360.png",
+    "static/media/kids.jpg": "/static/media/kids.36123e0d16126f5f6ef0.jpg",
+    "static/media/newborn.jpg": "/static/media/newborn.7c60b7f57ed949a778ee.jpg",
+    "static/media/banner_four.png": "/static/media/banner_four.b9294f4d846676a6d2dd.png",
+    "static/media/banner_two.png": "/static/media/banner_two.f465faa60a7f8a781396.png",
+    "static/media/banner_three.png": "/static/media/banner_three.443885a0b9d3e9ab7024.png",
+    "static/media/toddler.jpg": "/static/media/toddler.b3a8b9dfd365ce0c2f83.jpg",
+    "static/media/hand (1).png": "/static/media/hand (1).5a830404aecfb796fcf9.png",
+    "static/media/discount (2).png": "/static/media/discount (2).9e5ec24c54e457e583bf.png",
+    "static/media/logo1.png": "/static/media/logo1.7b56d2af33a26ac64737.png",
+    "static/media/family.jpeg": "/static/media/family.c9b113e93f5fa79439bd.jpeg",
+    "static/media/baby (1).jpeg": "/static/media/baby (1).e771fb464cc893e40956.jpeg",
+    "static/media/hero.jpeg": "/static/media/hero.6915f6e3df88b9ac9dad.jpeg",
+    "static/media/customer-service (2).png": "/static/media/customer-service (2).900c079a07bdc7a87c28.png",
+    "static/media/one.jpg": "/static/media/one.9d4e68147767a2396738.jpg",
+    "static/media/Hena.png": "/static/media/Hena.0ea1ff21b301af082137.png",
+    "static/media/truck (1).png": "/static/media/truck (1).ceb665f980654a92936b.png",
+    "index.html": "/index.html",
+    "main.27334dcc.css.map": "/static/css/main.27334dcc.css.map",
+    "main.8524ee4f.js.map": "/static/js/main.8524ee4f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.27334dcc.css",
+    "static/js/main.8524ee4f.js"
+  ]
+}
