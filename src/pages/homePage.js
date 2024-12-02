@@ -36,7 +36,7 @@ const homePage = () => {
 
 
       <Box sx={{ mt: 3, p: 2, background: '#edebeb' }}>
-        <Box sx={{ mt: 3, ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 } }}>
+        <Box sx={{ mt: 3, ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, pb:{xs:10} }}>
           <Grid container alignItems="center">
             <Grid item xs={12} lg={3}>
               <Typography

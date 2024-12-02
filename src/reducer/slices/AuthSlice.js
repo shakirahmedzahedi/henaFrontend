@@ -13,7 +13,8 @@ const authSlice = createSlice({
     },
     reducers: {
         clearError: (state) => {
-            state.error = null; // Action to clear error messages if needed
+            state.error = null;
+            state.text = null; // Action to clear error messages if needed
         },
         authCheck: (state, action) => {
             state.isAuthenticated = action.payload.isAuthenticated;
@@ -55,7 +56,8 @@ const authSlice = createSlice({
             .addCase(signUp.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload.user;
-                state.text = action.payload.data;
+                state.text = action.payload;
+                console.log(state.text);
             })
             .addCase(signUp.rejected, (state, action) => {
                 state.loading = false;

@@ -26,7 +26,7 @@ const Registration = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.auth.loading);
     const responseError = useSelector((state) => state.auth.error);
-    const message = "";
+    const message = useSelector((state) => state.auth.text);;
 
     const validate = () => {
         const newErrors = [];

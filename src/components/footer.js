@@ -10,6 +10,7 @@ import ChildCareOutlinedIcon from '@mui/icons-material/ChildCareOutlined';
 import PregnantWomanOutlinedIcon from '@mui/icons-material/PregnantWomanOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import ChildFriendlyOutlinedIcon from '@mui/icons-material/ChildFriendlyOutlined';
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
@@ -105,33 +106,41 @@ const Footer = () => {
             </Box>
           </Link>
 
+          <Link to={'/mom'} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <IconButton color="inherit" aria-label="mom">
               <PregnantWomanOutlinedIcon />
             </IconButton>
             <Typography variant="caption" color="inherit">Mom</Typography>
           </Box>
+          </Link>
 
+<Link to={'/children'} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <IconButton color="inherit" aria-label="kids">
               <ChildCareOutlinedIcon />
             </IconButton>
             <Typography variant="caption" color="inherit">Kids</Typography>
           </Box>
+          </Link>
 
+          <Link to={'/allproduct'} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <IconButton color="inherit" aria-label="categories">
               <CategoryOutlinedIcon />
             </IconButton>
-            <Typography variant="caption" color="inherit">Categories</Typography>
+            <Typography variant="caption" color="inherit">Products</Typography>
           </Box>
+          </Link>
 
+          <Link to={'/newBorn'} style={{ textDecoration: 'none', color: 'inherit' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <IconButton color="inherit" aria-label="favorites">
-              <FavoriteBorderIcon />
+              <ChildFriendlyOutlinedIcon/>
             </IconButton>
-            <Typography variant="caption" color="inherit">Favorites</Typography>
+            <Typography variant="caption" color="inherit">NewBorn</Typography>
           </Box>
+          </Link>
         </Toolbar>
       </AppBar>
     </>

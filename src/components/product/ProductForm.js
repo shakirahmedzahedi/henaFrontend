@@ -69,7 +69,7 @@ const ProductForm = () => {
         additionalInfo: '',
         extraInfo: '',
         category: '',
-        prie: 0,
+        price: 0,
         discountPercentage: 0,
         rating: 0,
         stock: 0,
