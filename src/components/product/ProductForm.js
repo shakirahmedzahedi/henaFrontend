@@ -73,13 +73,14 @@ const ProductForm = () => {
         // Upload file to Azure Blob Storage
 
         //await blockBlobClient.uploadBrowserData(file);
-        await blockBlobClient.uploadData(file, {
+        const uploadBlobResponse = await blockBlobClient.uploadBrowserData(file, {
           blobHTTPHeaders: { blobContentType: file.type }, // Set content type
         });
+        console.log(uploadBlobResponse);
         // Get public URL of the uploaded file
 
         const imageUrl = `${blobServiceUrl}/${containerName}/${blobName}`;
-        console.log(imageUrl);
+        
 
         setFormValues({ ...formValues, thumbnail: imageUrl });
         setThumbnailPreview(URL.createObjectURL(file));
