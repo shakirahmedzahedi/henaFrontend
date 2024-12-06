@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -11,84 +10,42 @@ import {
   Container,
   Grid,
   CircularProgress,
-  Alert
-} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, clearError } from '../../reducer/services/ProductService';
+  Alert,
+} from "@mui/material";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 const ProductForm = () => {
-  const dispatch = useDispatch();
-  const products = useSelector((state)=> state.product.products);
-  const loading = useSelector((state)=> state.product.loading);
-  const error = useSelector((state)=> state.product.error);
-  const successMessage = useSelector((state)=> state.product.success);
-  const categories = ['BABY_AND_KIDS', 'FAMILY_AND_MOM', 'NEW_ARRIVAL'];
-  const tagsOptions = ['NEWBORN', 'TODDLER', 'CHILDREN', 'MOM'];
+  const categories = ["BABY_AND_KIDS", "FAMILY_AND_MOM", "NEW_ARRIVAL"];
+  const tagsOptions = ["NEWBORN", "TODDLER", "CHILDREN", "MOM"];
 
-   const [formValues, setFormValues] = useState({
-    title: '',
-    description: '',
-    additionalInfo: '',
-    extraInfo: '',
-    category: '',
-    prie: 0,
+  const [formValues, setFormValues] = useState({
+    title: "",
+    description: "",
+    additionalInfo: "",
+    extraInfo: "",
+    category: "",
+    price: 0,
     discountPercentage: 0,
     rating: 0,
     stock: 0,
-    tags: '',
-    brand: '',
-    size: '',
+    tags: "",
+    brand: "",
+    size: "",
     weight: 0,
-    thumbnail: null, // Changed to null for file upload
+    thumbnail: null,
   });
 
-  const [uploading, setUploading] = useState(false); 
+  const [uploading, setUploading] = useState(false);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const [showError, setShowError] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
-  useEffect(() => {
-    if (error) {
-      setShowError(true);
-
-      // Hide the error message after 5 seconds
-      const timer = setTimeout(() => {
-        setShowError(false);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (successMessage) {
-      setShowSuccess(true);
-      setFormValues({
-        title: '',
-        description: '',
-        additionalInfo: '',
-        extraInfo: '',
-        category: '',
-        price: 0,
-        discountPercentage: 0,
-        rating: 0,
-        stock: 0,
-        tags: '',
-        brand: '',
-        size: '',
-        weight: 0,
-        thumbnail: null, // Changed to null for file upload
-      }); // Reset the form to initial values after successful submission
-    setThumbnailPreview(null);
-
-      // Hide the error message after 5 seconds
-      const timer = setTimeout(() => {
-        setShowSuccess(false);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage]);
+  // Azure Blob Storage configuration
+  const blobServiceUrl =
+    "https://shakirstorageaccount.blob.core.windows.net"; // Replace with your Blob service URL
+  const sasToken =
+    "sv=2022-11-02&ss=bfqt&srt=so&sp=rwdlacupiytfx&se=2025-12-06T23:58:51Z&st=2024-12-06T15:58:51Z&spr=https&sig=i4OZsMLj%2FlD0fqHDnHglcALTQ5Ok2wMIqo8WzQ6HwB0%3D"; // Your SAS token
+  const containerName = "product-images"; // Your Azure Blob Storage container name
 
   // Handle input changes
   const handleChange = (e) => {
@@ -99,48 +56,47 @@ const ProductForm = () => {
     });
   };
 
-  // Handle file upload to imgBB and update thumbnail URL in formValues
+  // Handle file upload
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setUploading(true);  // Show loading indicator
-      const formData = new FormData();
-      formData.append('image', file);
+      setUploading(true);
 
       try {
-        const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
-          params: { key: 'f2d1b1cdf2f7e2a3ddbf7d902911e4dc' },
-        });
-        const imageUrl = response.data.data.url;
-        
-        // Update thumbnail URL in form values
-        setFormValues({
-          ...formValues,
-          thumbnail: imageUrl,
-        });
+        // Initialize BlobServiceClient
+        const blobServiceClient = new BlobServiceClient(`${blobServiceUrl}?${sasToken}`);
+        const containerClient = blobServiceClient.getContainerClient(containerName);
+
+        // Generate unique blob name
+        const blobName = `${Date.now()}-${file.name}`;
+        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+        // Upload file to Azure Blob Storage
+        await blockBlobClient.uploadBrowserData(file);
+
+        // Get public URL of the uploaded file
+        const imageUrl = `${blobServiceUrl}/${containerName}/${blobName}`;
+
+        setFormValues({ ...formValues, thumbnail: imageUrl });
         setThumbnailPreview(URL.createObjectURL(file));
-      } catch (error) {
-        console.error('Error uploading image:', error);
+        setSuccessMessage("Thumbnail uploaded successfully!");
+      } catch (uploadError) {
+        setError("Error uploading image to Azure Blob Storage.");
+        console.error(uploadError);
       } finally {
-        setUploading(false);  // Hide loading indicator
+        setUploading(false);
       }
     }
   };
 
   // Handle form submission
-  const handleSubmit = async(e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(clearError);
-    
-    const formData = new FormData();
-    for (const key in formValues) {
-      const value = formValues[key];
 
-     formData.append(key, value);
-      
-    }
-    
-    await dispatch(addProduct(formData));
+    // Log form values to the console
+    console.log("Form submitted:", formValues);
+
+    setSuccessMessage("Product added successfully!");
   };
 
   return (
@@ -148,19 +104,11 @@ const ProductForm = () => {
       <Typography variant="h4" gutterBottom>
         Add Product
       </Typography>
-      {showError && error && (
-        <Alert severity="error" onClose={() => setShowError(false)}>
-          {error}
-        </Alert>
-      )}
-      {showSuccess && successMessage && (
-        <Alert severity="success" onClose={() => setShowError(false)}>
-          {successMessage}
-        </Alert>
-      )}
+      {error && <Alert severity="error">{error}</Alert>}
+      {successMessage && <Alert severity="success">{successMessage}</Alert>}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          {/* Left Column */}
+          {/* Title */}
           <Grid item xs={12} sm={6}>
             <TextField
               required
@@ -172,6 +120,7 @@ const ProductForm = () => {
             />
           </Grid>
 
+          {/* Category */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth required>
               <InputLabel>Category</InputLabel>
@@ -189,6 +138,7 @@ const ProductForm = () => {
             </FormControl>
           </Grid>
 
+          {/* Price */}
           <Grid item xs={12} sm={6}>
             <TextField
               required
@@ -202,6 +152,7 @@ const ProductForm = () => {
             />
           </Grid>
 
+          {/* Brand */}
           <Grid item xs={12} sm={6}>
             <TextField
               required
@@ -213,98 +164,25 @@ const ProductForm = () => {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField
-              type="number"
-              label="Discount Percentage"
-              name="discountPercentage"
-              fullWidth
-              value={formValues.discountPercentage}
-              onChange={handleChange}
-              inputProps={{ min: 0, max: 50 }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              type="number"
-              label="Rating"
-              name="rating"
-              fullWidth
-              value={formValues.rating}
-              onChange={handleChange}
-              inputProps={{ min: 0, max: 5, step: 0.5 }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              type="number"
-              label="Stock"
-              name="stock"
-              fullWidth
-              value={formValues.stock}
-              onChange={handleChange}
-              inputProps={{ min: 0, max: 500 }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth required>
-              <InputLabel>Tags</InputLabel>
-              <Select
-                name="tags"
-                value={formValues.tags}
-                onChange={handleChange}
-              >
-                {tagsOptions.map((tag) => (
-                  <MenuItem key={tag} value={tag}>
-                    {tag}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Size"
-              name="size"
-              fullWidth
-              value={formValues.size}
-              onChange={handleChange}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              type="number"
-              label="Weight"
-              name="weight"
-              fullWidth
-              value={formValues.weight}
-              onChange={handleChange}
-            />
-          </Grid>
-
-          {/* New File Input for Thumbnail */}
+          {/* File Input */}
           <Grid item xs={12} sm={6}>
             <input
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               id="thumbnail"
             />
             <label htmlFor="thumbnail">
               <Button variant="outlined" component="span" fullWidth>
-                {uploading ? <CircularProgress size={24} /> : 'Upload Thumbnail'}
+                {uploading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  "Upload Thumbnail"
+                )}
               </Button>
             </label>
-            {/* Preview Thumbnail */}
-            {thumbnailPreview  && (
+            {thumbnailPreview && (
               <div>
                 <Typography variant="body2" gutterBottom>
                   Thumbnail Preview:
@@ -312,51 +190,22 @@ const ProductForm = () => {
                 <img
                   src={thumbnailPreview}
                   alt="Thumbnail Preview"
-                  style={{ width: '100px', height: 'auto' }}
+                  style={{ width: "100px", height: "auto" }}
                 />
               </div>
             )}
           </Grid>
 
-          {/* Right Column for Larger Text Areas */}
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Description"
-              name="description"
-              multiline
-              rows={3}
-              fullWidth
-              value={formValues.description}
-              onChange={handleChange}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Additional Info"
-              name="additionalInfo"
-              multiline
-              rows={3}
-              fullWidth
-              value={formValues.additionalInfo}
-              onChange={handleChange}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Extra Info"
-              name="extraInfo"
-              multiline
-              rows={3}
-              fullWidth
-              value={formValues.extraInfo}
-              onChange={handleChange}
-            />
-          </Grid>
+          {/* Submit Button */}
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : 'Add Product'}
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              fullWidth
+              disabled={uploading}
+            >
+              Add Product
             </Button>
           </Grid>
         </Grid>
