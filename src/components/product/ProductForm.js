@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduct, clearError } from '../../reducer/services/ProductService';
+import { BlobServiceClient } from "@azure/storage-blob";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
@@ -129,9 +130,9 @@ const ProductForm = () => {
 
             setFormValues({ ...formValues, thumbnail: imageUrl });
             setThumbnailPreview(URL.createObjectURL(file));
-            setSuccessMessage("Thumbnail uploaded successfully!!!!");
+            //setSuccessMessage("Thumbnail uploaded successfully!!!!");
         } catch (uploadError) {
-            setError("Error uploading image to Azure Blob Storage.");
+            setShowError("Error uploading image to Azure Blob Storage.");
             console.error(uploadError);
         } finally {
             setUploading(false);
