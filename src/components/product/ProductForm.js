@@ -44,7 +44,7 @@ const ProductForm = () => {
   const blobServiceUrl =
     "https://shakirstorageaccount.blob.core.windows.net"; // Replace with your Blob service URL
   const sasToken =
-    "2022-11-02&ss=bfqt&srt=so&sp=rwdlacupiytfx&se=2025-12-06T23:58:51Z&st=2024-12-06T15:58:51Z&spr=https&sig=i4OZsMLj%2FlD0fqHDnHglcALTQ5Ok2wMIqo8WzQ6HwB0%3D"; // Your SAS token
+    "sv=2022-11-02&ss=bfqt&srt=so&sp=rwdlacupiytfx&se=2025-12-06T23:58:51Z&st=2024-12-06T15:58:51Z&spr=https&sig=i4OZsMLj%2FlD0fqHDnHglcALTQ5Ok2wMIqo8WzQ6HwB0%3D"; // Your SAS token
   const containerName = "product-images"; // Your Azure Blob Storage container name
 
   // Handle input changes
