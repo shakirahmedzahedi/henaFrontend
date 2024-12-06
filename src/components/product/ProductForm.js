@@ -64,6 +64,7 @@ const ProductForm = () => {
 
       try {
         // Initialize BlobServiceClient
+        console.log(`${blobServiceUrl}/?${sasToken}`);
         const blobServiceClient = new BlobServiceClient(`${blobServiceUrl}/?${sasToken}`);
         const containerClient = blobServiceClient.getContainerClient(containerName);
 
