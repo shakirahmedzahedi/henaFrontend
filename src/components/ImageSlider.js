@@ -10,10 +10,12 @@ import banner_one from './../assets/banner_one.png';
 import banner_two from './../assets/banner_two.png';
 import banner_three from './../assets/banner_three.png';
 import banner_four from './../assets/banner_four.png';
+import banner_1 from './../assets/banner_01.png'
+import banner_2 from './../assets/banner_02.png'
 
 // Sample images
 const images = [
-  banner_one,banner_two,banner_three,banner_four
+  banner_1,banner_2,banner_one,banner_two,banner_three,banner_four
 ];
 
 const ImageSlider = () => {
@@ -32,7 +34,7 @@ const ImageSlider = () => {
           <img 
             src={image} 
             alt={`Slide ${index + 1}`} 
-            style={{ width: '100%', maxHeight: '600px', marginTop: '25px', borderRadius: '8px', objectFit: 'cover' }} 
+            style={{ width: '100%', maxHeight: '350px', marginTop: '25px', borderRadius: '8px', objectFit: 'cover' }} 
           />
         </SwiperSlide>
         ))}
