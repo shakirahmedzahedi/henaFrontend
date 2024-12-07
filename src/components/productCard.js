@@ -37,6 +37,10 @@ const ProductCard = ({ product }) => {
         }
     }, [error]);
 
+    useEffect(() => {
+        
+    }, [dispatch]);
+
     const handleAddToCart = async () => {
         setButtonLoading(true);
 
