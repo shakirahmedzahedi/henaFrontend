@@ -38,6 +38,7 @@ const ProductCard = ({ product }) => {
     }, [error]);
 
     useEffect(() => {
+        console.log(user?.carts?.[0]?.articles?.length );
         
     }, [dispatch]);
 
