@@ -35,9 +35,8 @@ export default function Header() {
 
     const [anchorEl, setAnchorEl] = useState(null); // Menu anchor for user avatar
     const user = useSelector((state) => state.auth.user);
-    const activeCart = useSelector((state) => state.cart.cart); // Mock user data
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-    const cartItems = activeCart?.[0]?.articles?.length || 0;
+    const cartItems = user?.carts?.[0]?.articles?.length || 0;
     const favoriteItems = user?.favorites?.length || 0;
     
     console.log(user);
