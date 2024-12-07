@@ -36,6 +36,9 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null); // Menu anchor for user avatar
     const user = useSelector((state) => state.auth.user);; // Mock user data
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const cartItems = user?.carts?.[0]?.articles?.length || 0;
+    const favoriteItems = user?.favorites?.[0]?.articles?.length || 0;
+    
     console.log(user);
 
     const handleMenuOpen = (event) => {
@@ -101,7 +104,7 @@ export default function Header() {
 
                     <Link to={'/favorite'} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: 1 }}>
-                            <Badge badgeContent={4} color="primary">
+                            <Badge badgeContent={favoriteItems} color="primary">
                                 <FavoriteBorderIcon color="primary" sx={{ fontSize: 25 }} />
                             </Badge>
                             <Typography
@@ -115,7 +118,7 @@ export default function Header() {
 
                     <Link to={'/cart'} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: 1 }}>
-                            <Badge badgeContent={4} color="primary">
+                            <Badge badgeContent={cartItems} color="primary">
                                 <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
                             </Badge>
                             <Typography
@@ -157,6 +160,11 @@ export default function Header() {
                             >
                                 <MenuItem onClick={() => navigate('/myPage')}>My Page</MenuItem>
                                 <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                {user?.roles.includes('ADMIN') && (
+                                        <MenuItem onClick={handleAdminClick}>
+                                            Admin Portal
+                                        </MenuItem>
+                                    )}
                             </Menu>
                         </>
                     ) : (
