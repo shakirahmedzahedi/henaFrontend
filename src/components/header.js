@@ -34,10 +34,11 @@ export default function Header() {
     };
 
     const [anchorEl, setAnchorEl] = useState(null); // Menu anchor for user avatar
-    const user = useSelector((state) => state.auth.user);; // Mock user data
+    const user = useSelector((state) => state.auth.user);
+    const activeCart = useSelector((state) => state.cart.cart); // Mock user data
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-    const cartItems = user?.carts?.[0]?.articles?.length || 0;
-    const favoriteItems = user?.favorites?.[0]?.articles?.length || 0;
+    const cartItems = activeCart?.[0]?.articles?.length || 0;
+    const favoriteItems = user?.favorites?.length || 0;
     
     console.log(user);
 
@@ -71,6 +72,10 @@ export default function Header() {
             navigate('/');
         }
     }, [isAuthenticated]);
+
+    useEffect(() => {
+        
+    }, [user]);
 
     const bigContent = (
         <>
