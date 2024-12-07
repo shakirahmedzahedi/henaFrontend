@@ -36,10 +36,10 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null); // Menu anchor for user avatar
     const user = useSelector((state) => state.auth.user);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-    const cartItems = user?.carts?.[0]?.articles?.length || 0;
+    const articleItems = user?.carts?.[0]?.articles?.length || 0;
     const favoriteItems = user?.favorites?.length || 0;
     
-    console.log(user);
+    console.log(articleItems);
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -74,7 +74,7 @@ export default function Header() {
 
     useEffect(() => {
         
-    }, [user]);
+    }, [user, articleItems]);
 
     const bigContent = (
         <>
@@ -122,7 +122,7 @@ export default function Header() {
 
                     <Link to={'/cart'} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mx: 1 }}>
-                            <Badge badgeContent={cartItems} color="primary">
+                            <Badge badgeContent={articleItems} color="primary">
                                 <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
                             </Badge>
                             <Typography
@@ -257,13 +257,13 @@ export default function Header() {
                         }}
                     >
                         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <Badge badgeContent={4} color="primary">
+                            <Badge badgeContent={favoriteItems} color="primary">
                                 <FavoriteBorderIcon color="primary" sx={{ fontSize: 25 }} />
                             </Badge>
                         </Link>
                         <Link to="/cart" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <Box ml={2} sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Badge badgeContent={4} color="primary">
+                                <Badge badgeContent={articleItems} color="primary">
                                     <ShoppingBagOutlinedIcon color="primary" sx={{ fontSize: 25 }} />
                                 </Badge>
                             </Box>
