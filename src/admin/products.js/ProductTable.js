@@ -134,6 +134,7 @@ const ProductTable = () => {
   };
 
   const submitUpdate = (product,productData) => {
+    console.log("Submit call in parents: ", productData);
     const obj = {};
     productData.forEach((value, key) => {
           if (key ==='stock')

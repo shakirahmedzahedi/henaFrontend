@@ -104,6 +104,7 @@ const ProductFormUpdate = ({ product, onUpdate, onCancel }) => {
         setError(null);
 
         try {
+            console.log("Submit first call:, ", formValues);
             await  onUpdate(product, formValues);;
             setSuccess('Product updated successfully.');
         } catch (err) {
