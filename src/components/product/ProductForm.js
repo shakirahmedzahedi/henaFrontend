@@ -48,7 +48,7 @@ const ProductForm = () => {
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const blobServiceUrl ="https://shakirstorageaccount.blob.core.windows.net"; // Replace with your Blob service URL
-  const sasToken ="sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-12-08T07:19:25Z&st=2024-12-06T23:19:25Z&spr=https,http&sig=cr0%2Fc2W79ytU2HIrsnYxEkT%2FxYhNzksPtLoni9B8ipQ%3D"; // Your SAS token
+  const sasToken ="sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2025-01-08T09:43:28Z&st=2024-12-08T01:43:28Z&spr=https,http&sig=wFfTwmsLaLhwI6bs5DpfK0vo9y%2BKt%2BgI%2BZx0q81azgM%3D"; // Your SAS token
   const containerName = "product-images"; // Your Azure Blob Storage container name
 
   useEffect(() => {

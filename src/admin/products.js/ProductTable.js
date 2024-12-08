@@ -20,13 +20,15 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProducts, updateProduct } from '../../reducer/services/ProductService';
+import ProductFormUpdate from '../../components/product/ProductFromUpdate';
 
 const ProductTable = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
 
   // States
-  const [openDialog, setOpenDialog] = useState(false); // Stock update dialog
+  const [openDialog, setOpenDialog] = useState(false); 
+  const [openModal, setOpenModal] = useState(false);// Stock update dialog
   const [anchorEl, setAnchorEl] = useState(null); // Menu anchor
   const [selectedProduct, setSelectedProduct] = useState(null); // Selected product
   const [amount, setAmount] = useState(''); // Stock amount input
@@ -56,10 +58,20 @@ const ProductTable = () => {
     handleCloseMenu();
   };
 
+  const handleUpdateProductClick = (product) => {
+    setOpenDialog(true);
+    setSelectedProduct(product);
+    handleCloseMenu();
+  };
+
   // Close stock update dialog
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setAmount('');
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   // Handle stock update
@@ -121,6 +133,28 @@ const ProductTable = () => {
     setCurrentPage(pageNumber);
   };
 
+  const submitUpdate = (product,productData) => {
+    const obj = {};
+    productData.forEach((value, key) => {
+          if (key ==='stock')
+            {
+              obj[key] = parseInt(value);
+            }else if (key ==='price' || key ==='discountPercentage' || key ==='rating'|| key ==='weight' )
+              {
+                obj[key] = parseFloat(value);
+              }
+            else{
+              obj[key] = value;
+            }    
+      
+    });
+    
+    console.log(obj);
+    dispatch(updateProduct({ productId: selectedProduct.id, obj }));
+    handleCloseMenu();
+  }
+
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3, textAlign: 'center' }}>
@@ -180,6 +214,7 @@ const ProductTable = () => {
                           Make Bestseller
                         </MenuItem>
                         <MenuItem onClick={handleUpdateStockClick}>Update Stock</MenuItem>
+                        <MenuItem onClick={handleUpdateProductClick}>Update Product</MenuItem>
                       </Menu>
                     )}
                   </TableCell>
@@ -233,6 +268,15 @@ const ProductTable = () => {
             Update
           </Button>
         </DialogActions>
+      </Dialog>
+
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle>Update</DialogTitle>
+        <DialogContent>
+          {selectedProduct && (
+          <ProductFormUpdate product={selectedProduct} onUpdate={submitUpdate} onCancel={handleCloseModal}/>
+        )}
+        </DialogContent>
       </Dialog>
     </Box>
   );
