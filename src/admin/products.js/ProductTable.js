@@ -133,7 +133,7 @@ const ProductTable = () => {
     setCurrentPage(pageNumber);
   };
 
-  const submitUpdate = (product, productData) => {
+  const submitUpdate = async(product, productData) => {
     console.log("Submit call in parents: ", productData);
     const updatedData = {
       price: parseFloat(productData.price),
@@ -145,7 +145,8 @@ const ProductTable = () => {
     };
 
     console.log('Final update payload:', updatedData);
-    dispatch(updateProduct({ productId: product.id,  updatedData }));
+    await dispatch(updateProduct({ productId: product.id,  updatedData }));
+    handleCloseModal();
     handleCloseMenu();
   }
 
