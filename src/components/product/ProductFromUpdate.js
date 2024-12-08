@@ -13,6 +13,7 @@ import {
 import { BlobServiceClient } from '@azure/storage-blob';
 
 const ProductFormUpdate = ({ product, onUpdate, onCancel }) => {
+    console.log("Product:",product);
     const [formValues, setFormValues] = useState({
         price: product.price || 0,
         discountPercentage: product.discountPercentage || 0,
@@ -119,7 +120,7 @@ const ProductFormUpdate = ({ product, onUpdate, onCancel }) => {
     return (
         <Container maxWidth="sm">
             <Typography variant="h4" gutterBottom>
-                Update Product
+                Update Product {product?.title}
             </Typography>
             {error && <Alert severity="error">{error}</Alert>}
             {success && <Alert severity="success">{success}</Alert>}
