@@ -34,6 +34,19 @@ const ProductFormUpdate = ({ product, onUpdate, onCancel }) => {
     const containerName = 'product-images'; // Your Azure Blob Storage container name
 
     useEffect(() => {
+        // Update form values when product prop changes
+        setFormValues({
+            price: product.price || 0,
+            discountPercentage: product.discountPercentage || 0,
+            rating: product.rating || 0,
+            stock: product.stock || 0,
+            thumbnail: product.thumbnail || '',
+            bestSeller: product.bestSeller || false,
+        });
+        setThumbnailPreview(product.thumbnail || null);
+    }, [product]);
+
+    useEffect(() => {
         if (error) {
             const timer = setTimeout(() => setError(null), 5000);
             return () => clearTimeout(timer);
