@@ -135,24 +135,17 @@ const ProductTable = () => {
 
   const submitUpdate = (product, productData) => {
     console.log("Submit call in parents: ", productData);
-    const obj = {};
-    Object.entries(productData).forEach(([key, value]) => {
-      if (key === 'stock') {
-        obj[key] = parseInt(value);
-      } else if (
-        key === 'price' ||
-        key === 'discountPercentage' ||
-        key === 'rating' ||
-        key === 'weight'
-      ) {
-        obj[key] = parseFloat(value);
-      } else {
-        obj[key] = value;
-      }
-    });
+    const updatedData = {
+      price: parseFloat(productData.price),
+      discountPercentage: parseFloat(productData.discountPercentage),
+      rating: parseFloat(productData.rating),
+      stock: parseInt(productData.stock),
+      thumbnail: productData.thumbnail,
+      bestSeller: productData.bestSeller
+    };
 
-    console.log('Final update payload:', obj);
-    dispatch(updateProduct({ productId: product.id,  obj }));
+    console.log('Final update payload:', updatedData);
+    dispatch(updateProduct({ productId: product.id,  updatedData }));
     handleCloseMenu();
   }
 
