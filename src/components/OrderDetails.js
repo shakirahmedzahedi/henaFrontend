@@ -17,6 +17,11 @@ const OrderDetails = ({ order }) => {
   const formatDate = (date) => new Date(date).toLocaleString();
   const articles = order?.cart?.articles;
 
+  const addressToString = (address) => {
+    return `${address?.apartmentNo || ""}, ${address?.houseNo || ""}, ${address?.postCode || ""} ${address?.postOffice || ""}, ${address?.city || ""}`.trim().replace(/^,|,$/g, "");
+  };
+  
+
   const calculateSubtotal = () => {
     return articles?.reduce((acc, item) => {
       const price = item.product.discountPercentage
@@ -66,7 +71,7 @@ const OrderDetails = ({ order }) => {
         <Typography variant="body1">Name: {order?.user?.firstName || 'N/A'}</Typography>
         <Typography variant="body1">Email: {order?.user?.email || 'N/A'}</Typography>
         <Typography variant="body1">Phone: {order?.user?.phoneNo || 'N/A'}</Typography>
-        <Typography variant="body1">Address: {order?.user?.address || 'N/A'}</Typography>
+        <Typography variant="body1">Address: {addressToString(order?.user?.address) || 'N/A'}</Typography>
       </Box>
       <Divider sx={{ my: 2 }} />
       </Box>
