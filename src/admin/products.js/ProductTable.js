@@ -59,7 +59,7 @@ const ProductTable = () => {
   };
 
   const handleUpdateProductClick = (product) => {
-    setOpenDialog(true);
+    setOpenModal(true);
     setSelectedProduct(product);
     handleCloseMenu();
   };
