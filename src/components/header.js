@@ -189,7 +189,7 @@ export default function Header() {
                                     vertical: 'bottom',
                                 }}
                             >
-                                <MenuItem onClick={() => navigate('/myPage')}>My Page</MenuItem>
+                                <MenuItem onClick={handleMyPageClick}>My Page</MenuItem>
                                 <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
                                 {user?.roles.includes('ADMIN') && (
                                         <MenuItem onClick={handleAdminClick}>
