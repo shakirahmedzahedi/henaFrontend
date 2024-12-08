@@ -27,7 +27,7 @@ const ProductTable = () => {
   const products = useSelector((state) => state.product.products);
 
   // States
-  const [openDialog, setOpenDialog] = useState(false); 
+  const [openDialog, setOpenDialog] = useState(false);
   const [openModal, setOpenModal] = useState(false);// Stock update dialog
   const [anchorEl, setAnchorEl] = useState(null); // Menu anchor
   const [selectedProduct, setSelectedProduct] = useState(null); // Selected product
@@ -94,26 +94,26 @@ const ProductTable = () => {
     dispatch(updateProduct({ productId: selectedProduct.id, updatedData }));
 
     setOpenDialog(false);
-    
+
     setAmount('');
   };
 
   const handleMakeBestSeller = () => {
     const updatedData = {
-        price: selectedProduct.price,
-        discountPercentage: selectedProduct.discountPercentage,
-        rating: selectedProduct.rating,
-        stock: selectedProduct.stock,
-        thumbnail: selectedProduct.thumbnail,
-        bestSeller: true
-      };
-  
-      // Dispatch action to update product
-      dispatch(updateProduct({ productId: selectedProduct.id, updatedData }));
-  
-      handleCloseMenu();
-      
+      price: selectedProduct.price,
+      discountPercentage: selectedProduct.discountPercentage,
+      rating: selectedProduct.rating,
+      stock: selectedProduct.stock,
+      thumbnail: selectedProduct.thumbnail,
+      bestSeller: true
     };
+
+    // Dispatch action to update product
+    dispatch(updateProduct({ productId: selectedProduct.id, updatedData }));
+
+    handleCloseMenu();
+
+  };
 
   // Filter products by search query
   const filteredProducts = products.filter((product) =>
@@ -133,25 +133,26 @@ const ProductTable = () => {
     setCurrentPage(pageNumber);
   };
 
-  const submitUpdate = (product,productData) => {
+  const submitUpdate = (product, productData) => {
     console.log("Submit call in parents: ", productData);
     const obj = {};
-    productData.forEach((value, key) => {
-          if (key ==='stock')
-            {
-              obj[key] = parseInt(value);
-            }else if (key ==='price' || key ==='discountPercentage' || key ==='rating'|| key ==='weight' )
-              {
-                obj[key] = parseFloat(value);
-              }
-            else{
-              obj[key] = value;
-            }    
-      
+    Object.entries(productData).forEach(([key, value]) => {
+      if (key === 'stock') {
+        obj[key] = parseInt(value);
+      } else if (
+        key === 'price' ||
+        key === 'discountPercentage' ||
+        key === 'rating' ||
+        key === 'weight'
+      ) {
+        obj[key] = parseFloat(value);
+      } else {
+        obj[key] = value;
+      }
     });
-    
-    console.log(obj);
-    dispatch(updateProduct({ productId: selectedProduct.id, obj }));
+
+    console.log('Final update payload:', obj);
+    dispatch(updateProduct({ productId: product.id,  obj }));
     handleCloseMenu();
   }
 
@@ -211,11 +212,11 @@ const ProductTable = () => {
                         open={Boolean(anchorEl)}
                         onClose={handleCloseMenu}
                       >
-                        <MenuItem onClick={ handleMakeBestSeller}>
+                        <MenuItem onClick={handleMakeBestSeller}>
                           Make Bestseller
                         </MenuItem>
                         <MenuItem onClick={handleUpdateStockClick}>Update Stock</MenuItem>
-                        <MenuItem onClick={()=>handleUpdateProductClick(selectedProduct)}>Update Product</MenuItem>
+                        <MenuItem onClick={() => handleUpdateProductClick(selectedProduct)}>Update Product</MenuItem>
                       </Menu>
                     )}
                   </TableCell>
@@ -275,8 +276,8 @@ const ProductTable = () => {
         <DialogTitle>Update.............</DialogTitle>
         <DialogContent>
           {selectedProduct && (
-          <ProductFormUpdate product={selectedProduct} onUpdate={submitUpdate} onCancel={handleCloseModal}/>
-        )}
+            <ProductFormUpdate product={selectedProduct} onUpdate={submitUpdate} onCancel={handleCloseModal} />
+          )}
         </DialogContent>
       </Dialog>
     </Box>

@@ -88,6 +88,7 @@ export const updateProduct = createAsyncThunk(
   'products/updateProduct',
   async ({ productId, updatedData }, {rejectWithValue}) => {
     try{
+      console.log(updatedData);
     const response = await patch(`/whoIsBoss/admin/product/updateProduct/{id}?id=${productId}`, updatedData);
     if (response.errors.length > 0) {
       return rejectWithValue(response.errors[0].message);
