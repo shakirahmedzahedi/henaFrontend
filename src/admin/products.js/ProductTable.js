@@ -214,7 +214,7 @@ const ProductTable = () => {
                           Make Bestseller
                         </MenuItem>
                         <MenuItem onClick={handleUpdateStockClick}>Update Stock</MenuItem>
-                        <MenuItem onClick={handleUpdateProductClick}>Update Product</MenuItem>
+                        <MenuItem onClick={()=>handleUpdateProductClick(selectedProduct)}>Update Product</MenuItem>
                       </Menu>
                     )}
                   </TableCell>
@@ -271,7 +271,7 @@ const ProductTable = () => {
       </Dialog>
 
       <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Update</DialogTitle>
+        <DialogTitle>Update.............</DialogTitle>
         <DialogContent>
           {selectedProduct && (
           <ProductFormUpdate product={selectedProduct} onUpdate={submitUpdate} onCancel={handleCloseModal}/>
