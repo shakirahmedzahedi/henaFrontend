@@ -71,6 +71,7 @@ const ProductTable = () => {
   };
 
   const handleCloseModal = () => {
+    console.log("Closing modal");
     setOpenModal(false);
   };
 
@@ -144,9 +145,14 @@ const ProductTable = () => {
       bestSeller: productData.bestSeller
     };
 
-    console.log('Final update payload:', updatedData);
-    await dispatch(updateProduct({ productId: product.id,  updatedData }));
-    handleCloseModal();
+    try {
+      // Await the dispatch to ensure it completes before closing the modal
+      await dispatch(updateProduct({ productId: product.id, updatedData }));
+      handleCloseModal(); // Close modal only after dispatch completes
+    } catch (error) {
+      console.error("Error updating product:", error);
+      alert("Failed to update the product. Please try again.");
+    }
     handleCloseMenu();
   }
 
