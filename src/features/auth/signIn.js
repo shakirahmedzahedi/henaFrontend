@@ -96,7 +96,9 @@ const SignIn = (props) => {
     }, [isAuthenticated, navigate]);
 
     return (
-        <Box sx={{ p: 2 }}>
+        <>
+        {loading ? <CircularProgress size={96} /> :
+        (<Box sx={{ p: 2 }}>
            
             <Box component={Paper} elevation={6} square sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Avatar sx={{ m: 1, bgcolor: 'primary.main', textAlign: 'center' }}>
@@ -166,7 +168,7 @@ const SignIn = (props) => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {loading ? <CircularProgress size={24} /> : 'Sign In'}
+                         Sign In
                     </Button>
                     {message && <Typography color="secondary">{message}</Typography>}
                     {responseError && <Typography color="secondary">{responseError}</Typography>}
@@ -186,6 +188,8 @@ const SignIn = (props) => {
                 </Box>
             </Box>
         </Box>
+    )}
+    </>
     );
 };
 
