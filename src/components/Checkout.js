@@ -96,7 +96,7 @@ const Checkout = () => {
   };
 
   const calculateTax = (subtotal) => {
-    return subtotal * 0.1; // Assume 10% tax rate
+    return (subtotal * 0.1).toFixed(2); // Assume 10% tax rate
   };
 
   const calculateDiscountedPrice = (price, discount) => {
@@ -161,15 +161,15 @@ const Checkout = () => {
                               variant="body2"
                               sx={{ textDecoration: 'line-through', color: 'text.secondary' }}
                             >
-                              BDT {item.product.price}
+                              ৳ {item.product.price}
                             </Typography>
                             <Typography variant="body2" fontWeight="bold" color="primary">
-                              BDT {calculateDiscountedPrice(item.product.price, item.product.discountPercentage)}
+                              ৳ {calculateDiscountedPrice(item.product.price, item.product.discountPercentage)}
                             </Typography>
                           </>
                         ) : (
                           <Typography variant="body2" fontWeight="bold">
-                            BDT {item.product.price}
+                            ৳ {item.product.price}
                           </Typography>
                         )}
                       </>
@@ -197,7 +197,7 @@ const Checkout = () => {
 
                   {/* Total Price for Item */}
                   <Typography variant="body1" color="text.primary" sx={{ ml: 2 }}>
-                    BDT {calculateItemTotal(item)}
+                    ৳ {calculateItemTotal(item)}
                   </Typography>
                 </ListItem>
               ))}
@@ -222,21 +222,21 @@ const Checkout = () => {
           <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between' }}>
             <Typography variant="body1">Subtotal:</Typography>
             <Typography variant="body1" color="text.secondary">
-              BDT {subtotal}
+              ৳ {subtotal}
             </Typography>
           </Box>
 
           <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between'}}>
             <Typography variant="body1">Tax <span>included</span> (10%):</Typography>
             <Typography variant="body1" color="text.secondary">
-              BDT {tax}
+              ৳ {tax}
             </Typography>
           </Box>
           {user?.initialDiscount && (
-            <Box sx={{ mb: 1 }}>
+            <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between' }}>
             <Typography variant="body1">Welcome Discount:</Typography>
               <Typography variant="body1" color="text.secondary">
-                BDT 200.00
+                ৳ 200.00
               </Typography>
           </Box>
           )}
@@ -262,7 +262,7 @@ const Checkout = () => {
             <Typography variant="body1">Discount:</Typography>
             {discountedcoupon && (
               <Typography variant="body1" color="text.secondary">
-                BDT {discountedcoupon?.discountAmount}
+                ৳ {discountedcoupon?.discountAmount}
               </Typography>
             )}
           </Box>
@@ -273,7 +273,7 @@ const Checkout = () => {
               Total:
             </Typography>
             <Typography variant="h6" fontWeight="bold" color="primary">
-              BDT {total}
+              ৳ {total}
             </Typography>
           </Box>
           <Divider sx={{ my: 1 }} />
