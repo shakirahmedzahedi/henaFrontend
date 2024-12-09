@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, Typography, List, ListItem, ListItemText, Divider, Button, IconButton, TextField } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Button,
+  IconButton,
+  TextField,
+  Paper
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -200,7 +212,7 @@ const Checkout = () => {
         {/* Right Side: Order Summary */}
         <Grid item textAlign={'right'} xs={12} md={4} pl={3}>
           {articles?.length > 0 ? (
-            <>
+            <Paper>
           <Typography variant="h5" textAlign={'center'} gutterBottom>
             Order Summary
           </Typography>
@@ -268,7 +280,7 @@ const Checkout = () => {
           <Button component={Link} to="/payment" sx={{ mt: 2, mb: 2 }} variant="contained" color="primary" fullWidth>
             Proceed to Checkout
           </Button>
-          </>) : null}
+          </Paper>) : null}
         </Grid>
       </Grid>
     </Box>

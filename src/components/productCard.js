@@ -163,7 +163,7 @@ const ProductCard = ({ product }) => {
                         </CardContent>
                     </Link>
                 </CardActionArea>
-                <CardActions>
+               {/* <CardActions>*/}
                     {/* Add to Cart Button */}
                    
                         <Button
@@ -186,7 +186,7 @@ const ProductCard = ({ product }) => {
                         </Button>
                    
 
-                </CardActions>
+               {/* </CardActions>*/}
             </Card>
         </Box>
     );
