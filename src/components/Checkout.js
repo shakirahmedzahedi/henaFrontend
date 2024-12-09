@@ -219,21 +219,21 @@ const Checkout = () => {
 
           <Divider sx={{ my: 2 }} />
 
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between' }}>
             <Typography variant="body1">Subtotal:</Typography>
             <Typography variant="body1" color="text.secondary">
               BDT {subtotal}
             </Typography>
           </Box>
 
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="body1">Tax (10%):</Typography>
+          <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between'}}>
+            <Typography variant="body1">Tax <span>included</span> (10%):</Typography>
             <Typography variant="body1" color="text.secondary">
               BDT {tax}
             </Typography>
           </Box>
           {user?.initialDiscount && (
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ mb: 1 }}>
             <Typography variant="body1">Welcome Discount:</Typography>
               <Typography variant="body1" color="text.secondary">
                 BDT 200.00
@@ -258,7 +258,7 @@ const Checkout = () => {
           </Box>
           {error && <Typography variant="body1" color={'primary'}>{error}</Typography>}
 
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between' }}>
             <Typography variant="body1">Discount:</Typography>
             {discountedcoupon && (
               <Typography variant="body1" color="text.secondary">
@@ -268,7 +268,7 @@ const Checkout = () => {
           </Box>
 
 
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 1, p:1, display: 'flex', justifyContent:'space-between'}}>
             <Typography variant="h6" fontWeight="bold">
               Total:
             </Typography>
@@ -276,8 +276,8 @@ const Checkout = () => {
               BDT {total}
             </Typography>
           </Box>
-          <Divider sx={{ my: 2 }} />
-          <Button component={Link} to="/payment" sx={{ mt: 2, mb: 2 }} variant="contained" color="primary" fullWidth>
+          <Divider sx={{ my: 1 }} />
+          <Button component={Link} to="/payment" sx={{ mt: 1, mb: 1 }} variant="contained" color="primary" fullWidth>
             Proceed to Checkout
           </Button>
           </Paper>) : null}
