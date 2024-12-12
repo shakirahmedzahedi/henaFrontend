@@ -20,8 +20,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart, deleteCart, feachActiveCartsByUser } from '../reducer/services/CartService';
 import { fetchCouponByNumber, clearError } from '../reducer/services/DiscountCouponService';
-import OrderSummery from './OrderSummery';
-
 const Checkout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
