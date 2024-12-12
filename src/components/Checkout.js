@@ -56,7 +56,6 @@ const Checkout = () => {
 
   // Recalculate the total whenever the coupon or subtotal changes
   useEffect(() => {
-    console.log(discountedcoupon?.discountAmount);
     let calculatedTotal = subtotal;
     if (user?.initialDiscount) {
       calculatedTotal -= 200.00;
