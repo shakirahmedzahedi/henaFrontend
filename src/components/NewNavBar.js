@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {
     Grid,
     TextField,
+    Tabs,
+    Tab,
     InputAdornment,
     IconButton,
     List,
@@ -13,10 +15,11 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '../reducer/slices/ProductSlice';
-import { useNavigate } from 'react-router-dom';
+import {  Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function NewNavBar() {
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
     const products = useSelector((state) => state.product.products);
 
@@ -67,6 +70,63 @@ export default function NewNavBar() {
                     height: '65px',
                 }}
             >
+
+<Grid
+                    item
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Tabs
+                        value={location.pathname}
+                        textColor="secondary"
+                        indicatorColor="none"
+                        aria-label="navigation tabs"
+                        disableRipple
+                        sx={{
+                            height: '30px', // Set height of Tabs
+                            minHeight: '30px', // Override default min-height
+                            '& .MuiTab-root': {
+                                fontWeight: 'bold',
+                                fontSize: '.8rem',
+                                minHeight: '30px',
+                                height: '30px',
+                                paddingLeft: 6,
+                                margin: 0,
+                            },
+                            '& .MuiTabs-indicator': {
+                                display: 'none', // Remove underline
+                            },
+                        }}
+                    >
+                        <Tab
+                            value="/allproduct"
+                            label="Products"
+                            component={Link}
+                            to="/allproduct"
+                        />
+                        <Tab
+                            value="/newArrival"
+                            label="New Arrival"
+                            component={Link}
+                            to="/newArrival"
+                        />
+                        <Tab
+                            value="/babyAndKids"
+                            label="Baby & Kids"
+                            component={Link}
+                            to="/babyAndKids"
+                        />
+                        <Tab
+                            value="/familyAndMom"
+                            label="Family & Mom"
+                            component={Link}
+                            to="/familyAndMom"
+                        />
+                    </Tabs>
+                </Grid>
                 {/* Search Bar Section */}
                 <Grid
                     item
