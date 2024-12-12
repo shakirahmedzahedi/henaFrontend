@@ -11,11 +11,13 @@ import {
   Paper,
   Divider,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const OrderDetails = ({ order }) => {
   // Helper function to format the date
   const formatDate = (date) => new Date(date).toLocaleString();
   const articles = order?.cart?.articles;
+  const user = useSelector((state)=> state.auth.user);
 
   const addressToString = (address) => {
     return `${address?.apartmentNo || ""}, ${address?.houseNo || ""}, ${address?.postCode || ""} ${address?.postOffice || ""}, ${address?.city || ""}`.trim().replace(/^,|,$/g, "");
@@ -71,7 +73,7 @@ const OrderDetails = ({ order }) => {
         <Typography variant="body1">Name: {order?.user?.firstName || 'N/A'}</Typography>
         <Typography variant="body1">Email: {order?.user?.email || 'N/A'}</Typography>
         <Typography variant="body1">Phone: {order?.user?.phoneNo || 'N/A'}</Typography>
-        <Typography variant="body1">Address: {addressToString(order?.user?.address) || 'N/A'}</Typography>
+        <Typography variant="body1">Address: {addressToString(order?.address) || addressToString(user?.address)}</Typography>
       </Box>
       <Divider sx={{ my: 2 }} />
       </Box>

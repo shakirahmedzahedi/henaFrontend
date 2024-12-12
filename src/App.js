@@ -36,6 +36,7 @@ import SendEmailToResetPassword from './components/SendEmailToResetPassword';
 import ResetPassword from './components/ResetPassword';
 import Favorite from './components/Favorite';
 import FavoritePage from './pages/FavoritePage';
+import SearchProductPage from './pages/SearchProductPage';
 
 
 
@@ -139,6 +140,7 @@ function App() {
 
               <Route path="/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
               <Route path="/productDetails/:productId" element={<ProductDetails />} />
+              <Route path="/searchProduct" element={<SearchProductPage />} />
             </Routes>
 
           </Box>

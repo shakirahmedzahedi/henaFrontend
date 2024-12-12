@@ -62,12 +62,12 @@ const handleAddressChange = (e) => {
   }));
 };
 
-const handleSaveAddress = () => {
+const handleSaveAddress = async() => {
   const req = {
     userId: user?.id,
     ...address,
   }
-  dispatch(updateAddress(req));
+  await dispatch(updateAddress(req));
   setOpenAddressModal(false);
 };
 
@@ -125,7 +125,7 @@ const handleSaveAddress = () => {
               <strong>House NO:</strong> {stateUser.address?.houseNo}
             </Typography>
             <Typography variant="body1" >
-              <strong>Street No:</strong> {stateUser.address?.apartmentNo}
+              <strong>Apartment No:</strong> {stateUser.address?.apartmentNo}
             </Typography>
             
             <Typography variant="body1">
