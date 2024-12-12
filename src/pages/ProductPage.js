@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { Box, Typography, Grid } from '@mui/material'
+import { Box, Typography, Grid, Divider } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProducts } from '../reducer/services/ProductService';
 import { Link } from 'react-router-dom';
@@ -39,17 +39,42 @@ const ProductPage = ({ filter }) => {
         }
     }, [filter, products]);
 
+    const getTitle =(filter)=>{
+
+        switch (filter) {
+            case "NEW_ARRIVAL":
+                return "New Arrival";
+            case "BABY_AND_KIDS":
+                return "Baby&Kids";
+            case "FAMILY_AND_MOM":
+                 return "Family&MOM"
+            case "NEWBORN":
+                return"NewBorn"
+            case "CHILDREN":
+                return "Children";   
+            case "MOM":
+                return "Mom";
+            case "TODDLER":
+                return "Toddler";
+                           
+            default:
+                return "Products"; // Default to returning all products
+        }
+
+    }
+
 
     return (
-        <Box sx={{ padding: 2, minHeight: '78vh', ml: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, mr: { xs: 2, sm: 3, md: 15, lg: 19, xl: 23 }, pb:7 }}>
+        <Box sx={{ padding: .5, minHeight: '78vh', ml: { xs: .5, sm: 3, md: 11, lg: 15, xl: 23 }, mr: { xs: .5, sm: 3, md: 11, lg: 15, xl: 23 }, pb:9 }}>
             <Box sx={{ textAlign: 'center' }}>
-                <Typography variant='h1' align='left' color={'primary'} sx={{ fontFamily: 'Squada One', fontSize: { xs: '20px', md: '24px', lg: '36px' } }}>
-                   {filter}
+                <Typography variant='h1' align='left' color={'primary'} sx={{  fontSize: { xs: '20px', md: '24px', lg: '36px' } }}>
+                  {getTitle(filter)}
                 </Typography>
             </Box>
+            <Divider sx={{ bgcolor: 'info.dark', minHeight: '.2vh' }} />
             <Grid container alignItems="center" justifyContent="left" spacing={1} mt={2}>
                 {filteredProducts?.map((product, index) => (
-                    <Grid key={product.id} item xs={12} sm={6} md={4} lg={3} xl={3} sx={{ mt: 2/* , display: 'flex', justifyContent: 'center'  */}}>
+                    <Grid key={product.id} item xs={6} sm={3} md={3} lg={2.4} xl={2.4} sx={{ mt: 2/* , display: 'flex', justifyContent: 'center'  */}}>
 
                         <ProductCard product={product} />
 

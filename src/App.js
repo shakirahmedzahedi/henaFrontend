@@ -137,7 +137,7 @@ function App() {
                 <Route path="coupons/allCoupons" element={<CouponTable />} />
               </Route>
 
-              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/payment" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
               <Route path="/productDetails/:productId" element={<ProductDetails />} />
             </Routes>
 

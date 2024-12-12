@@ -10,6 +10,7 @@ const OrderSuccess = () => {
   };
 
   return (
+    <Box sx={{ padding: .5, minHeight: '78vh', ml: { xs: .5, sm: 3, md: 11, lg: 15, xl: 23 }, mr: { xs: .5, sm: 3, md: 11, lg: 15, xl: 23 }, pb:9 }}>
     <Box textAlign="center" mt={5}>
       <Typography variant="h4" color="primary">
         Order Successfully Placed!
@@ -25,6 +26,7 @@ const OrderSuccess = () => {
       >
         Go to Home
       </Button>
+    </Box>
     </Box>
   );
 };

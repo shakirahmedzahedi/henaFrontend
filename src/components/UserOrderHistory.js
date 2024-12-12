@@ -16,6 +16,7 @@ import {
   ListItem,
   ListItemText,
   Box,
+  CircularProgress,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import OrderDetails from './OrderDetails';
@@ -24,6 +25,7 @@ import { fetchOrdersByUser } from '../reducer/services/OrderService';
 const UserOrderHistory = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.order.orders);
+  const loading = useSelector((state) => state.order.loading);
   const user = useSelector((state) => state.auth.user);
   const [selectedOrder, setSelectedOrder] = useState(null); // For managing the selected order
   const [open, setOpen] = useState(false);
@@ -66,6 +68,7 @@ const UserOrderHistory = () => {
               </TableCell>
             </TableRow>
           </TableHead>
+          {loading && <CircularProgress fontSize={48}/>}
           <TableBody>
             {orders?.length > 0 ? (
               orders.map((order, index) => (

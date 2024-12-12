@@ -38,8 +38,8 @@ const ProductCard = ({ product }) => {
     }, [error]);
 
     useEffect(() => {
-        console.log(user?.carts?.[0]?.articles?.length );
-        
+        console.log(user?.carts?.[0]?.articles?.length);
+
     }, [dispatch]);
 
     const handleAddToCart = async () => {
@@ -60,10 +60,12 @@ const ProductCard = ({ product }) => {
             userId,
             productId: product?.id
         }
+        setButtonLoading(true);
 
         if (isFavorite) {
             try {
                 await dispatch(removeFromFavorite(req));
+                setButtonLoading(false);
 
             } catch (error) {
                 setShowError(true);
@@ -72,7 +74,7 @@ const ProductCard = ({ product }) => {
         else {
             try {
                 await dispatch(addToFavorite(req));
-
+                setButtonLoading(false);
             } catch (error) {
                 setShowError(true);
             }
@@ -90,35 +92,52 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <Box>
+        <Box sx={{ position: 'relative', width: '200px' }}>
+        {buttonLoading && (
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)', // White with opacity for blur effect
+                    backdropFilter: 'blur(.5px)', // Blurring effect
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 2, // Ensure it's above the card
+                }}
+            >
+                <CircularProgress size={40} />
+            </Box>
+        )}
             <Card
                 sx={{
-                    maxWidth: 280, // Set a maximum width
-                    height: 420, // Set a fixed height for the card
+                    maxWidth: 200, // Set a maximum width
+                    height: 400, // Set a fixed height for the card
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between', // Adjust alignment
+                    boxShadow: 3,
+                    borderRadius: 2,
                 }}
             >
-                <CardActionArea>
+                <CardActionArea >
                     <Link to={`/productDetails/${product?.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <CardMedia
                             component="img"
                             height="200"
-                            maxWidth="260"// Adjust height to fit the fixed card size
+                            maxWidth="200"// Adjust height to fit the fixed card size
+
                             image={product?.thumbnail}
                             alt={product?.title}
+                            sx={{ objectFit: 'contain' }}
                         />
-                        <CardContent sx={{ bgcolor: 'info.main', padding: 2 }}>
-                            <Box display="flex" justifyContent="space-between" alignItems="center">
-                                {/* Product Title */}
-                                <Typography gutterBottom variant="body2" noWrap>
-                                    {product?.title}
-                                </Typography>
-
-                            </Box>
-
-                            {/* Rating */}
+                        <CardContent sx={{ bgcolor: 'info.main', padding: .5 }}>
+                            <Typography gutterBottom variant="body2" noWrap>
+                                {product?.title}
+                            </Typography>
                             <Box display="flex" alignItems="center" gap={1}>
                                 <Rating
                                     name="product-rating"
@@ -142,52 +161,43 @@ const ProductCard = ({ product }) => {
                                         >
                                             ৳ {product?.price}
                                         </Typography>
-                                        {/* Discount Percentage */}
-                                        <Box sx={{ px: 0.5, borderRadius: 1 }}>
-                                            <Typography variant="body1" color="secondary">
-                                                -{product?.discountPercentage}%
-                                            </Typography>
-                                        </Box>
+                                        <Typography variant="body2" color="secondary">
+                                            -{product?.discountPercentage}%
+                                        </Typography>
                                     </Box>
-                                    {/* New Price */}
-                                    <Typography variant="body1" fontWeight="bold" color="primary">
+                                    <Typography variant="body2" fontWeight="bold" color="primary">
                                         ৳ {calculateDiscountedPrice()}
                                     </Typography>
                                 </Box>
                             ) : (
-                                // Show only the original price if there's no discount
-                                <Typography variant="body1" fontWeight="bold" color="primary" mt={1}>
+                                <Typography variant="body2" mt={3} fontWeight="bold" color="primary">
                                     ৳ {product?.price.toFixed(2)}
                                 </Typography>
                             )}
                         </CardContent>
                     </Link>
                 </CardActionArea>
-               {/* <CardActions>*/}
-                    {/* Add to Cart Button */}
-                   
-                        <Button
-                            disabled={product?.stock <= 0}
-                            variant="contained"
-                            onClick={handleAddToCart}
-                            fullWidth
-                        >
-                            {buttonLoading ? <CircularProgress size={24} /> : <AddShoppingCartOutlinedIcon/> }
-                        </Button>
+                <Box display="flex" flexDirection="column" gap={1} justifyContent="space-between">
+                    <Button
+                        disabled={product?.stock <= 0}
+                        variant="contained"
+                        onClick={handleAddToCart}
+                        fullWidth
+                    >
+                        {buttonLoading ? <CircularProgress size={24} /> : <AddShoppingCartOutlinedIcon />}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleToggleFavorite}
+                        fullWidth
+                    >
+                        {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+                    </Button>
 
-                        <Button
+                </Box>
 
-
-                            variant="contained"
-                            onClick={handleToggleFavorite}
-                            fullWidth
-                        >
-                            {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
-                        </Button>
-                   
-
-               {/* </CardActions>*/}
             </Card>
+            
         </Box>
     );
 };
