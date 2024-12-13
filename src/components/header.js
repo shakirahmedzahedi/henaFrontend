@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import logo from './../assets/logo1.png';
 import {
     AppBar, Tabs, Tab, Button, Grid, Toolbar, useTheme, useMediaQuery, Typography, Box, IconButton,
-    Badge, TextField, InputAdornment, Avatar, Menu, MenuItem
+    Badge, TextField, InputAdornment, Avatar, Menu, MenuItem,List, Paper, ListItem, ListItemButton, ListItemText
 } from '@mui/material'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../reducer/services/AuthService';
 import { clearError } from '../reducer/slices/AuthSlice';
 import NewNavBar from './NewNavBar';
+import { setSearchQuery } from '../reducer/slices/ProductSlice';
 
 export default function Header() {
     const theme = useTheme();
@@ -40,7 +41,7 @@ export default function Header() {
     const articleItems = activeCart?.articles?.length || 0;
     const favoriteItems = user?.favorites?.length || 0;
     
-    console.log(articleItems);
+    
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -58,6 +59,45 @@ export default function Header() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
+    const products = useSelector((state) => state.product.products);
+
+    // Local state
+    const [searchInput, setSearchInput] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+
+    // Handle input change
+    const handleInputChange = (e) => {
+        const input = e.target.value;
+        setSearchInput(input);
+
+        // Filter products to generate suggestions
+        if (input) {
+            const filtered = products
+                .filter((product) =>
+                    product.title.toLowerCase().includes(input.toLowerCase())
+                )
+                .map((product) => product.title); // Extract titles
+            setSuggestions(filtered);
+        } else {
+            setSuggestions([]); // Clear suggestions if input is empty
+        }
+    };
+
+    // Handle suggestion click
+    const handleSuggestionClick = (suggestion) => {
+        setSearchInput(suggestion); // Update input with suggestion
+        setSuggestions([]); // Clear suggestions
+    };
+
+    // Handle search button click
+    const handleSearchClick = async () => {
+        await dispatch(setSearchQuery(searchInput));
+        setSearchInput('');
+        setSuggestions([]);
+        navigate('/searchProduct'); // Navigate to search results
+    };
+
 
 
     const handleSignOut = () => {
@@ -358,12 +398,19 @@ export default function Header() {
                 <TextField
                     placeholder="Search..."
                     fullWidth
+                    value={searchInput}
+                    onChange={handleInputChange}
                     size="small"
                     variant="outlined"
                     InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon color="primary" />
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={handleSearchClick} // Trigger search
+                                    color="primary"
+                                >
+                                    <SearchIcon />
+                                </IconButton>
                             </InputAdornment>
                         ),
                     }}
@@ -384,6 +431,36 @@ export default function Header() {
                     }}
                 />
             </Box>
+            {suggestions.length > 0 && (
+                        <Paper
+                            sx={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: 0,
+                                width: '100%',
+                                maxWidth: '600px',
+                                zIndex: 10,
+                                maxHeight: '200px',
+                                overflowY: 'auto',
+                                backgroundColor: 'white',
+                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                            }}
+                        >
+                            <List>
+                                {suggestions.map((suggestion, index) => (
+                                    <ListItem
+                                        key={index}
+                                        disablePadding
+                                        onClick={() => handleSuggestionClick(suggestion)} // Select suggestion
+                                    >
+                                        <ListItemButton>
+                                            <ListItemText primary={suggestion} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Paper>
+                    )}
         </>
     );
     
