@@ -9,6 +9,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ChildCareOutlinedIcon from '@mui/icons-material/ChildCareOutlined';
 import PregnantWomanOutlinedIcon from '@mui/icons-material/PregnantWomanOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ChildFriendlyOutlinedIcon from '@mui/icons-material/ChildFriendlyOutlined';
 import { Link } from 'react-router-dom'
@@ -157,7 +158,7 @@ const Footer = () => {
                 Follow us on
               </Typography>
               <Box>
-                <a href='https://www.facebook.com' target="_blank" rel="noopener noreferrer">
+                <a href='https://www.facebook.com/HenaMarkt' target="_blank" rel="noopener noreferrer">
                   <IconButton color="info" mt={2}>
                     <FacebookOutlinedIcon fontSize='medium' />
                   </IconButton>
@@ -167,9 +168,9 @@ const Footer = () => {
                     <InstagramIcon fontSize='medium' />
                   </IconButton>
                 </a>
-                <a href='https://www.youtube.com' target="_blank" rel="noopener noreferrer">
+                <a href='https://wa.me/008801903652681' target="_blank" rel="noopener noreferrer">
                   <IconButton color="info" style={{ margin: '10px', color: 'info' }}>
-                    <YouTubeIcon fontSize='medium' />
+                    <WhatsAppIcon fontSize='medium' />
                   </IconButton>
                 </a>
               </Box>

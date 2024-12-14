@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  CircularProgress,
 } from '@mui/material';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -26,13 +27,14 @@ const MyPage = () => {
   const location = useLocation();
   const user = location.state?.user; 
   const stateUser = useSelector((state)=> state.auth.user);
+  const loading = useSelector((state)=> state.auth.loading);
 
   const [openAddressModal, setOpenAddressModal] = useState(false);
   const [address, setAddress] = useState({
     apartmentNo: stateUser?.address?.apartmentNo,
     houseNo: stateUser?.address?.houseNo,
     postCode: stateUser?.address?.postCode,
-    postOffice: stateUser?.address?.postOfficeo,
+    postOffice: stateUser?.address?.postOffice,
     city: stateUser?.address?.city,
   });
   
@@ -79,7 +81,7 @@ const handleSaveAddress = async() => {
         </Typography>
       </Box>
       <Box>
-        <Divider sx={{ bgcolor: 'secondary.main', minHeight: '.2vh', mb: 3 }} />
+        <Divider sx={{ bgcolor: 'info.dark', minHeight: '.2vh', mb: 3 }} />
       </Box>
       <Grid container spacing={3}>
         {/* Personal Information Paper */}
@@ -146,13 +148,19 @@ const handleSaveAddress = async() => {
         </Typography>
       </Box>
       <Box>
-        <Divider sx={{ bgcolor: 'secondary.main', minHeight: '.2vh', mb: 3 }} />
+        <Divider sx={{ bgcolor: 'info.dark', minHeight: '.2vh', mb: 3 }} />
       </Box>
       <UserOrderHistory/>
 
       <Dialog open={openAddressModal} onClose={handleCloseAddressModal}>
         <DialogTitle>Edit Address</DialogTitle>
+       
         <DialogContent>
+        {loading ? (
+          <Box minHeight={"50vh"} minWidth={"50vh"}>
+          <CircularProgress size={48}/>
+          </Box>):
+        (<>
           <TextField
             label="Apartment No"
             name="apartmentNo"
@@ -198,6 +206,8 @@ const handleSaveAddress = async() => {
             fullWidth
             margin="normal"
           />
+          </>
+           )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAddressModal} color="secondary">
@@ -208,6 +218,7 @@ const handleSaveAddress = async() => {
           </Button>
         </DialogActions>
       </Dialog>
+       
     </Box>
   );
 };

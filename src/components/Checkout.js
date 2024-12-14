@@ -178,7 +178,7 @@ const Checkout = () => {
                               <AddIcon />
                             </IconButton>
                             <IconButton onClick={() => handleRemoveItem(item.product.id, item.unit)} edge="end" aria-label="delete">
-                              <DeleteIcon />
+                              <DeleteIcon  color='secondary'/>
                             </IconButton>
                           </Box>
                         }

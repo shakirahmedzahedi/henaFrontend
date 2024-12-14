@@ -37,6 +37,7 @@ import ResetPassword from './components/ResetPassword';
 import Favorite from './components/Favorite';
 import FavoritePage from './pages/FavoritePage';
 import SearchProductPage from './pages/SearchProductPage';
+import FloatingWhatsupButton from './components/FloatingWhatsupButton';
 
 
 
@@ -112,29 +113,29 @@ function App() {
               <Route path="/signUp" element={<SignUpPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/allproduct" element={<ProductPage  />} />
-              <Route path="/newArrival" element={<ProductPage  filter={'NEW_ARRIVAL'}/>} />
-              <Route path="/babyAndKids" element={<ProductPage  filter={'BABY_AND_KIDS'}/>} />
-              <Route path="/familyAndMom" element={<ProductPage  filter={'FAMILY_AND_MOM'}/>} />
-              <Route path="/newBorn" element={<ProductPage  filter={'NEWBORN'}/>} />
-              <Route path="/toddler" element={<ProductPage  filter={'TODDLER'}/>} />
-              <Route path="/children" element={<ProductPage  filter={'CHILDREN'}/>} />
-              <Route path="/mom" element={<ProductPage  filter={'MOM'}/>} />
+              <Route path="/allproduct" element={<ProductPage />} />
+              <Route path="/newArrival" element={<ProductPage filter={'NEW_ARRIVAL'} />} />
+              <Route path="/babyAndKids" element={<ProductPage filter={'BABY_AND_KIDS'} />} />
+              <Route path="/familyAndMom" element={<ProductPage filter={'FAMILY_AND_MOM'} />} />
+              <Route path="/newBorn" element={<ProductPage filter={'NEWBORN'} />} />
+              <Route path="/toddler" element={<ProductPage filter={'TODDLER'} />} />
+              <Route path="/children" element={<ProductPage filter={'CHILDREN'} />} />
+              <Route path="/mom" element={<ProductPage filter={'MOM'} />} />
               <Route path="/addProduct" element={<ProtectedRoute><AddProductPage /></ProtectedRoute>} />
               <Route path="/legal" element={<TermsAndConditionPage />} />
-              <Route path="/favorite" element={<ProtectedRoute><FavoritePage/></ProtectedRoute>} />
+              <Route path="/favorite" element={<ProtectedRoute><FavoritePage /></ProtectedRoute>} />
               <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
               <Route path="/myPage" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
               <Route path="/orderSuccess" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
 
               <Route path="/adminPortal/*" element={<ProtectedRoute><AdminHome /></ProtectedRoute>} >
-                <Route path="" element={<Dashboard />} /> 
-                <Route path="orders" element={<OrderSection />} /> 
-                <Route path="users" element={<UsersSection />} /> 
-                <Route path="coupons" element={<CouponsSection />} /> 
-                <Route path="products" element={<ProductsSection />} /> 
-                <Route path="products/addNew" element={<AddProductPage />} /> 
-                <Route path="products/showAll" element={<ProductTable/>} /> 
+                <Route path="" element={<Dashboard />} />
+                <Route path="orders" element={<OrderSection />} />
+                <Route path="users" element={<UsersSection />} />
+                <Route path="coupons" element={<CouponsSection />} />
+                <Route path="products" element={<ProductsSection />} />
+                <Route path="products/addNew" element={<AddProductPage />} />
+                <Route path="products/showAll" element={<ProductTable />} />
                 <Route path="coupons/allCoupons" element={<CouponTable />} />
               </Route>
 
@@ -145,7 +146,7 @@ function App() {
 
           </Box>
 
-
+          <FloatingWhatsupButton />
           <Footer />
         </Router>
 
