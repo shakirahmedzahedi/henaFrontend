@@ -5,10 +5,10 @@ import ChatIcon from "@mui/icons-material/Chat";
 
 const FloatingWhatsupButton = () => {
   const handleWhatsAppClick = () => {
-    const phoneNumber = "008801903652681"; // Replace with the target WhatsApp number
+    const phoneNumber = "8801903652681"; // Replace with the target WhatsApp number
     const message = "Hello! I need assistance."; // Default message
     const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/${phoneNumber}`;
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
     // Open WhatsApp link
     window.open(whatsappURL, "_blank");
