@@ -17,9 +17,10 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Divider
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllProducts, updateProduct } from '../../reducer/services/ProductService';
+import { fetchAllProducts, updateProduct, deleteProduct } from '../../reducer/services/ProductService';
 import ProductFormUpdate from '../../components/product/ProductFromUpdate';
 
 const ProductTable = () => {
@@ -39,7 +40,7 @@ const ProductTable = () => {
   // Fetch products when the component mounts
   useEffect(() => {
     dispatch(fetchAllProducts());
-  }, [dispatch]);
+  }, [dispatch], products);
 
   // Handle opening menu
   const handleClickMenu = (event, product) => {
@@ -61,6 +62,14 @@ const ProductTable = () => {
   const handleUpdateProductClick = (product) => {
     setOpenModal(true);
     setSelectedProduct(product);
+    handleCloseMenu();
+  };
+
+  const handleDeleteProductClick = async(product) => {
+    console.log("click delete");
+    console.log(product);
+    await dispatch(deleteProduct({id: product.id}))
+   
     handleCloseMenu();
   };
 
@@ -216,7 +225,10 @@ const ProductTable = () => {
                           Make Bestseller
                         </MenuItem>
                         <MenuItem onClick={handleUpdateStockClick}>Update Stock</MenuItem>
+                        <Divider sx={{ bgcolor: 'info.dark', minHeight: '.2vh' }} />
                         <MenuItem onClick={() => handleUpdateProductClick(selectedProduct)}>Update Product</MenuItem>
+                        <Divider sx={{ bgcolor: 'info.dark', minHeight: '.2vh' }} />
+                        <MenuItem onClick={() => handleDeleteProductClick(selectedProduct)}>Delete Product</MenuItem>
                       </Menu>
                     )}
                   </TableCell>

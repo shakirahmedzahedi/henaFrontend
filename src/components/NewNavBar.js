@@ -15,7 +15,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchQuery } from '../reducer/slices/ProductSlice';
-import {  Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function NewNavBar() {
     const navigate = useNavigate();
@@ -46,9 +46,12 @@ export default function NewNavBar() {
     };
 
     // Handle suggestion click
-    const handleSuggestionClick = (suggestion) => {
+    const handleSuggestionClick = async (suggestion) => {
         setSearchInput(suggestion); // Update input with suggestion
         setSuggestions([]); // Clear suggestions
+        await dispatch(setSearchQuery(suggestion)); // Dispatch search query with the selected suggestion
+        setSearchInput('');
+        navigate('/searchProduct'); // Navigate to search results
     };
 
     // Handle search button click
@@ -71,7 +74,7 @@ export default function NewNavBar() {
                 }}
             >
 
-<Grid
+                <Grid
                     item
                     sx={{
                         width: '100%',

@@ -20,7 +20,7 @@ import PaymentPage from "./pages/PaymentPage";
 import ProductDetails from "./components/ProductDetails";
 import ProtectedRoute from "./special/ProtectedRoute ";
 import MyPage from "./pages/MyPage";
-import { authCheck } from './reducer/slices/AuthSlice';
+import { renewToken } from './reducer/services/AuthService';
 import AutoSignOut from './components/AutoSingOut';
 import ProductPage from './pages/ProductPage';
 import AdminHome from './admin/AdminHome';
@@ -89,11 +89,8 @@ function App() {
 
     if (token && email && isAuthenticate) {
       // Update Redux state with token and user data if token exists
-      dispatch(authCheck({
-        isAuthenticated: true,
-        token: token,
-        data: user
-      }));
+      console.log("Renew token...................");
+      dispatch(renewToken(email));
     }
   }, [dispatch]);
 

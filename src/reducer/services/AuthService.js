@@ -16,7 +16,6 @@ export const signIn = createAsyncThunk(
             localStorage.setItem('token', response.token);
             localStorage.setItem('email', credentials.email); 
             localStorage.setItem('isAuthenticate', true); 
-            localStorage.setItem('user',JSON.stringify(response.data)); 
             console.error(response.data);
 
             return response.data; 
@@ -54,7 +53,6 @@ export const logOut = createAsyncThunk(
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('isAuthenticate');
-    localStorage.removeItem('user');
      dispatch(signout());
      return true;
 
@@ -124,6 +122,26 @@ export const removeFromFavorite = createAsyncThunk(
         } catch (error) {
     
             return rejectWithValue('Failed to register user. Please try again later.');
+        }
+    }
+);
+
+export const renewToken = createAsyncThunk(
+    'auth/renewToken',
+    async ( email,{ rejectWithValue }) => {
+        try {
+            const response = await get(`/auth/renewToken?email=${email}`);
+            if (response.errors.length > 0) {
+                return rejectWithValue(response.errors[0].message);
+            }
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('email', email); 
+            localStorage.setItem('isAuthenticate', true); 
+           
+            return response.data;
+        } catch (error) {
+    
+            return rejectWithValue('Failed to renew token.');
         }
     }
 );

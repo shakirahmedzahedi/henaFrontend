@@ -315,7 +315,7 @@ export default function Header() {
                                     <Avatar
                                         sx={{ width: 24, height: 24, bgcolor: 'primary.main' }}
                                     >
-                                        {user.firstName.charAt(0).toUpperCase()}
+                                        {user?.firstName.charAt(0).toUpperCase()}
                                     </Avatar>
                                 </IconButton>
                                 <Menu

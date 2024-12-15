@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {signIn, signUp, updateAddress, addToFavorite, removeFromFavorite, fetchUserById} from './../services/AuthService';
+import {signIn, signUp, updateAddress, addToFavorite, removeFromFavorite, fetchUserById, renewToken} from './../services/AuthService';
 
 const authSlice = createSlice({
     name: 'auth',
@@ -116,6 +116,22 @@ const authSlice = createSlice({
                 
             })
             .addCase(fetchUserById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+               
+            })
+            .addCase(renewToken.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(renewToken.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                state.token = action.payload.token;
+                state.isAuthenticated = true;
+                
+            })
+            .addCase(renewToken.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
                
