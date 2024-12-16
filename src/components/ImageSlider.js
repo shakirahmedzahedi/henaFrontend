@@ -26,7 +26,7 @@ const ImageSlider = () => {
         spaceBetween={50}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 10000 }}
+        autoplay={{ delay: 5000 }}
         loop
       >
         {images.map((image, index) => (
@@ -34,7 +34,7 @@ const ImageSlider = () => {
           <img 
             src={image} 
             alt={`Slide ${index + 1}`} 
-            style={{ width: '100%', maxHeight: '350px', marginTop: '25px', borderRadius: '8px', objectFit: 'cover' }} 
+            style={{ width: '100%', maxHeight: '420px', marginTop: '5px', borderRadius: '8px', objectFit: 'cover' }} 
           />
         </SwiperSlide>
         ))}
