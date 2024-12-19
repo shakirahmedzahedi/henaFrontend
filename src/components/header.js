@@ -16,6 +16,8 @@ import { logOut } from '../reducer/services/AuthService';
 import { clearError } from '../reducer/slices/AuthSlice';
 import NewNavBar from './NewNavBar';
 import { setSearchQuery } from '../reducer/slices/ProductSlice';
+import { feachActiveCartsByUser } from '../reducer/services/CartService';
+import { clearCart } from '../reducer/slices/CartSlice';
 
 export default function Header() {
     const theme = useTheme();
@@ -35,12 +37,13 @@ export default function Header() {
     };
 
     const [anchorEl, setAnchorEl] = useState(null); // Menu anchor for user avatar
+   
     const user = useSelector((state) => state.auth.user);
+    //const userCarts = useSelector((state) => state.auth.user?.carts);
     const activeCart = useSelector((state) => state.cart.cart);
-    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const articleItems = activeCart?.articles?.length || 0;
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const favoriteItems = user?.favorites?.length || 0;
-    
     
 
     const handleMenuOpen = (event) => {
@@ -111,11 +114,18 @@ export default function Header() {
         if (isAuthenticated) {
             navigate('/');
         }
+        if (!isAuthenticated) {
+            dispatch(clearCart()); // Action to reset active cart in Redux
+        }
     }, [isAuthenticated]);
 
     useEffect(() => {
+        dispatch(clearError());
+    if (user?.id) {
+      dispatch(feachActiveCartsByUser(user.id));
+    }
         
-    }, [user, articleItems]);
+    }, [user, articleItems, dispatch]);
 
     const bigContent = (
         <>
